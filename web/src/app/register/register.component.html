@@ -1,0 +1,26 @@
+<div class="container">
+    <h1>Registrate</h1>
+        <form action="" class="host">
+            <mat-form-field>
+                <mat-label>Nombre</mat-label>
+                <input matInput #input placeholder="Contraseña" class="input" required />
+            </mat-form-field>
+            <mat-form-field style="width: 100%;">
+                <mat-label>Correo</mat-label>
+                <input matInput placeholder="correo@dominio.com" [formControl]="email" required class="input">
+            @if (email.invalid) {
+                <mat-error>{{getErrorMessage()}}</mat-error>
+            }
+            </mat-form-field>
+            <mat-form-field hintLabel="Minimo 8 caracteres">
+                <mat-label>Contraseña</mat-label>
+                <input matInput #input minlength="8" placeholder="Contraseña" class="input" required >
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Confirmar contraseña</mat-label>
+                <input matInput #input minlength="8" placeholder="Contraseña" class="input" required >
+            </mat-form-field>
+            <button mat-raised-button color="primary">Primary</button>
+            </form>
+            <p class="register">¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></p>
+</div>
