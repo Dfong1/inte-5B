@@ -1,0 +1,33 @@
+.container{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor {
+    width: 50%;
+    height: auto;
+    box-shadow: 1px 4px 6px rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.btn {
+    background-color: #99d9e2;
+    width: 100%;
+}
+
+.alert {
+    width: 100%;
+}

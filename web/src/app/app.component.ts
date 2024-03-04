@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './components/login/login.component';
 
-@Component({  
+@Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, LoginComponent],
@@ -10,5 +10,5 @@ import { LoginComponent } from './login/login.component';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'Water QA';
+  title = 'proyecto';
 }
