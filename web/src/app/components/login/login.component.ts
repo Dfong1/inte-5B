@@ -5,6 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { User } from '../../interfaces/User';
 import { Login } from '../../interfaces/Login';
+import { UserDataService } from '../../services/user-data.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ import { Login } from '../../interfaces/Login';
 export class LoginComponent {
   
   // Inyeccion de FormBuilder para formulario reactivo y LoginService para petición de Login
-  constructor(private fb: FormBuilder, private ls: LoginService, private router: Router) {}
+  constructor(private fb: FormBuilder, private ls: LoginService, private ud: UserDataService, private router: Router) {}
 
     public message: string|null = null;
     public userLogin: Login = {
@@ -26,7 +27,7 @@ export class LoginComponent {
     public user: User = {
       data: {
         id: 0,
-        name: "",
+        nombre: "",
         email: "",
         rol_id: 0,
       },
@@ -38,13 +39,19 @@ export class LoginComponent {
     
     this.ls.login(this.userLogin).subscribe(
       (response) => {
-        // Asignando datos al User
+        // Asignando datos al usuario
         console.log("Response", response.data);
         localStorage.setItem('token', response.token)
+
         this.user.data.id = response.data.id
-        this.user.data.name = response.data.name
+        this.user.data.nombre = response.data.nombre
+        this.user.data.email = response.data.email
         this.user.data.rol_id = 1
         this.user.token = response.token
+
+        this.ud.setUserData(this.user)
+
+        this.ls.setToken(response.token)
 
         this.router.navigate(['/home'])
       },

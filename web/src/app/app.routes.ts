@@ -5,11 +5,15 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { HomeComponent } from './components/home/home.component';
+import { KitsComponent } from './components/kits/kits.component';
 
 export const routes: Routes = [
     { path: '', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
-    { path: 'home', component: HomeComponent}
+    { path: 'home', component: HomeComponent, children: [{
+        path: 'kits',
+        component: KitsComponent
+    }]}
 ];
     NgModule({
         declarations: [
