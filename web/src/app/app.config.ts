@@ -8,5 +8,5 @@ import { tokenInterceptor } from './interceptors/token.interceptor';
 import { errorInterceptor } from './interceptors/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideAnimationsAsync(), provideHttpClient(withInterceptors([tokenInterceptor, errorInterceptor])), HttpClient]
+providers: [provideRouter(routes), provideAnimationsAsync(), provideHttpClient(withInterceptors([tokenInterceptor, errorInterceptor])), HttpClient]
 };

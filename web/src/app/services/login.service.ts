@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../interfaces/User';
 import { Observable } from 'rxjs';
 import { Login } from '../interfaces/Login';
+import { api }  from '../interfaces/Environment'
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { Login } from '../interfaces/Login';
 export class LoginService {
 
   // Declaración de variables y URLS para petición
-  private loginUrl = 'http://127.0.0.1:8000/api/login/user'
+  private loginUrl = `${api}/api/login/user`
   private token: string|null = null;
   private static instance: LoginService
 

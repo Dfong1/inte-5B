@@ -1,7 +1,7 @@
 export interface User{
     data: {
         id: Number
-        name: string
+        nombre: string
         email: string
         rol_id: Number
     },
