@@ -5,7 +5,7 @@
         <h1>Iniciar sesión</h1>
         <form class="form" (submit)="onSubmit($event)">
             <div class="form-floating mb-3">
-                <input matInput placeholder="correo@dominio.com" [(ngModel)]="userLogin.email" name="email" class="form-control">
+                <input matInput [(ngModel)]="userLogin.email" name="email" class="form-control">
                     <label for="floatingInput">Correo</label>
             </div>
             <div class="form-floating mb-3">

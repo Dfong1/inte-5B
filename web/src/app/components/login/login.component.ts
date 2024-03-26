@@ -6,16 +6,17 @@ import { LoginService } from '../../services/login.service';
 import { User } from '../../interfaces/User';
 import { Login } from '../../interfaces/Login';
 import { UserDataService } from '../../services/user-data.service';
+import {MatInput} from "@angular/material/input";
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ ReactiveFormsModule, CommonModule, RouterModule, FormsModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule, FormsModule, MatInput],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  
+
   // Inyeccion de FormBuilder para formulario reactivo y LoginService para petición de Login
   constructor(private fg: FormGroup, private ls: LoginService, private ud: UserDataService, private router: Router) {}
 
@@ -48,7 +49,7 @@ export class LoginComponent {
 
   onSubmit(event: Event){
     event.preventDefault()
-    
+
     this.ls.login(this.userLogin).subscribe(
       (response) => {
         // Asignando datos al usuario
@@ -72,7 +73,7 @@ export class LoginComponent {
         this.message = error.msg
       }
     )
-    
+
   }
 
 
