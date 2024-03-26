@@ -1,20 +1,20 @@
-
 <div class="container">
-    <div class="alert alert-success" *ngIf="mostrarAlert">
-        Tus datos: <br> {{ correo.value }} <br> {{ contrasena.value }}
+    <div class="alert alert-success" *ngIf="msg">
+        {{ msg }}
+        <p>Redireccionando al login</p>
     </div>
     <div class="contenedor">
         <h1>Registrate</h1>
-        <form action="" class="form" [formGroup]="form">
+        <form action="" class="form" [formGroup]="form" (submit)="submit()">
             <div class="form-floating mb-3">
-                <input placeholder="Ingrese su nombre" formControlName="usuario"  [class.is-invalid]="usuario.invalid && usuario.touched" required class="form-control" #user>
+                <input placeholder="Ingrese su nombre" formControlName="usuario"  [class.is-invalid]="usuario.invalid && usuario.touched" required class="form-control">
                     <label for="floatingInput">Nombre de usuario</label>
                     <div [hidden]="usuario.valid || usuario.pristine">
                         <span class="text-danger" *ngIf="usuario.errors?.['required'] && usuario.touched">El usuario es obligatorio</span>
                     </div>
             </div>
             <div class="form-floating mb-3">
-                <input matInput placeholder="correo@dominio.com" formControlName="email" required [class.is-invalid]="email.invalid && email.touched" class="form-control" #correo>
+                <input matInput placeholder="correo@dominio.com" formControlName="email" required [class.is-invalid]="email.invalid && email.touched" class="form-control">
                     <label for="floatingInput">Correo</label>
                     <div [hidden]="email.valid || email.pristine">
                         <span class="text-danger" *ngIf="email.errors?.['required']">{{getErrorMessage()}}</span>
@@ -22,21 +22,40 @@
                     </div>
             </div>
             <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="floatingPassword" formControlName="password" [class.is-invalid]="password.invalid && password.touched" placeholder="Password" required #contrasena >
+                <input type="password" class="form-control" id="floatingPassword" formControlName="password" [class.is-invalid]="password.invalid && password.touched" placeholder="Password" required >
                 <label for="floatingPassword">Contraseña</label>
                 <div [hidden]="password.valid || password.pristine">
-                    <span class="text-danger" *ngIf="password.errors?.['required'] && password.touched">La contraseña es obligatoria</span>
+                    <span class="text-danger" *ngIf="password.errors?.['required']">La contraseña es obligatoria</span>
+                    <span class="text-danger" *ngIf="password.errors?.['minlength']">La contraseña debe ser de minimo 8 caracteres</span>
                 </div>
             </div>
             <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="floatingPassword" formControlName="confirm_password"  [class.is-invalid]="confirm_password.invalid && confirm_password.touched" placeholder="Password" required #confirmar_contrasena >
-                <label for="floatingPassword">Confirma contraseña</label>
+                <input type="password" class="form-control" id="floatingPasswordConfirmation" formControlName="confirm_password"  [class.is-invalid]="confirm_password.invalid && confirm_password.touched" placeholder="Password" required  >
+                <label for="floatingPasswordConfirmation">Confirma contraseña</label>
                 <div [hidden]="confirm_password.valid || confirm_password.pristine || confirm_password.value === password.value">
-                    <span class="text-danger" *ngIf="confirm_password.errors?.['required'] && confirm_password.touched">La contraseña es obligatoria</span>
+                    <span class="text-danger" *ngIf="confirm_password.errors?.['required']">La contraseña es obligatoria</span>
+                    <br>
+                    <span class="text-danger" *ngIf="confirm_password.errors?.['minlength']">La contraseña debe ser de minimo 8 caracteres</span>
+                    <br>
+                    <span *ngIf="disabledButton() || password.touched" class="text-danger">Las contraseñas no coinciden</span>
                 </div>
             </div>
-            <button class="btn" (click)="mostrar_datos(correo.value, contrasena.value)">Inicar sesión</button>
+            <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" *ngIf="emailError">
+                <span *ngFor="let error of emailError">{{ error }}</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" *ngIf="passwordError">
+                <span *ngFor="let error of passwordError">{{ error }}</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" *ngIf="nombreError">
+                <span *ngFor="let error of nombreError">{{ error }}</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <button class="btn" [disabled]="form.invalid || disabledButton()">Registrarse</button>
         </form>
         <p>¿Ya tienes una cuenta? <a routerLink="">Inicia sesión</a></p>
     </div>
 </div>
+
+{{ userRegister | json }}

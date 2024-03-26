@@ -1,5 +1,5 @@
 import { Component, NgModule } from '@angular/core';
-import { FormBuilder, FormControl,  FormsModule,  ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl,  FormGroup,  FormsModule,  ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { LoginService } from '../../services/login.service';
@@ -17,7 +17,19 @@ import { UserDataService } from '../../services/user-data.service';
 export class LoginComponent {
   
   // Inyeccion de FormBuilder para formulario reactivo y LoginService para petición de Login
-  constructor(private fb: FormBuilder, private ls: LoginService, private ud: UserDataService, private router: Router) {}
+  constructor(private fg: FormGroup, private ls: LoginService, private ud: UserDataService, private router: Router) {}
+
+  public form = new FormGroup({
+    email: new FormControl('', Validators.required),
+    password: new FormControl('', [Validators.required, Validators.minLength(8)])
+  })
+
+  get email(){
+    return this.form.get('email') as FormControl
+  }
+  get password() {
+    return this.form.get('password') as FormControl
+  }
 
     public message: string|null = null;
     public userLogin: Login = {
