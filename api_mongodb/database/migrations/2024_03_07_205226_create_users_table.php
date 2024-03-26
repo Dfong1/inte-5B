@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name',50);
             $table->string('email',50)->unique();
-            $table->password('password');
+            $table->string('password');
             $table->boolean('status')->default(false);
         });
     }

@@ -5,21 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class UsersController extends Controller
 {
     public function store(Request $request)
     {
-        $validations=Validator::make($request->all(),[
+        $this->validate($request, [
             'name'=>'required',
             'email'=>'required|email|regex:/(.*@.{2,}\..{2,3})$/|unique:users',
             'password'=>'required',
         ]);
-
-        if($validations->fails()){
-            return response()->json(["Errores"=>$validations->errors(),"msg"=>"Error en los datos"],400);
-        }
 
         $user = new User();
         $user->name=$request->name;
@@ -28,5 +24,14 @@ class UsersController extends Controller
         $user->save();
 
         return response()->json(["msg"=>"Usuario creado correctamente"],200);
+    }
+
+    public static function getUserIdFromToken() {
+        try {
+            $user=auth()->user();
+        } catch (JWTException $e) {
+            return response()->json(['msg' => 'Invalid token']);
+        }
+        return response()->json(['id' => $user]);
     }
 }
