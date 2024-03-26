@@ -7,7 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HomeComponent } from './components/home/home.component';
 
 export const routes: Routes = [
-    { path: '', component: LoginComponent },
+    { path: '', component: LoginComponent},
     { path: 'register', component: RegisterComponent },
     { path: 'home', component: HomeComponent}
 ];
