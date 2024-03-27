@@ -5,16 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
+use App\Mail\ConfirmarEmail;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\URL;
 
 class UsersController extends Controller
 {
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $validate=Validator::make($request->all(), [
             'name'=>'required',
             'email'=>'required|email|regex:/(.*@.{2,}\..{2,3})$/|unique:users',
-            'password'=>'required',
+            'password'=>'required|min:8',
         ]);
 
         $user = new User();
@@ -23,15 +29,35 @@ class UsersController extends Controller
         $user->password=Hash::make($request->password);
         $user->save();
 
+        $token = JWTAuth::fromUser($user);
+        $url = URL::temporarySignedRoute(
+            'activate',
+            now()->addMinutes(10),
+            ['token' => $token]
+        );
+        Mail::to($request->email)->send(new ConfirmarEmail($url, $user->name));
         return response()->json(["msg"=>"Usuario creado correctamente"],200);
     }
 
-    public static function getUserIdFromToken() {
+
+    public function activate($token)
+    {
+        $url = URL::to('activate',[$token]) ;
         try {
-            $user=auth()->user();
+            JWTAuth::parseToken($token)->authenticate();
         } catch (JWTException $e) {
-            return response()->json(['msg' => 'Invalid token']);
+            return response()->view('ErrorEmail', ['reenviar_email' => $url]);
         }
-        return response()->json(['id' => $user]);
+        $user = User::find($this->getIDbyToken($token));
+        if (!$user)
+            return response()->view('ErrorEmail', ['reenviar_email' => $url]);
+        $user->status = true;
+        $user->save();
+        return response()->view('AcceptedEmail');
+    }
+    public function getIDbyToken($token)
+    {
+        $payload = JWTAuth::parseToken($token);
+        return $payload->getPayload()['sub'];
     }
 }

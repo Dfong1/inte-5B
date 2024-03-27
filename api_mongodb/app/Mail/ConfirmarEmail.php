@@ -12,46 +12,28 @@ use Illuminate\Queue\SerializesModels;
 class ConfirmarEmail extends Mailable
 {
     use Queueable, SerializesModels;
+    public $url;
+    public$name;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function __construct($url, $name)
     {
-        //
+        $this->url = $url;
+        $this->name = $name;
+        $this->subject('Activa tu cuenta');
     }
-
-    /**
-     * Get the message envelope.
-     *
-     * @return \Illuminate\Mail\Mailables\Envelope
-     */
     public function envelope()
     {
         return new Envelope(
             subject: 'Confirmar Email',
         );
     }
-
-    /**
-     * Get the message content definition.
-     *
-     * @return \Illuminate\Mail\Mailables\Content
-     */
     public function content()
     {
         return new Content(
-            view: 'view.name',
+            view: 'email_confirmation',
         );
     }
 
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array
-     */
     public function attachments()
     {
         return [];
