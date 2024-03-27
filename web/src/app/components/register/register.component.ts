@@ -2,8 +2,10 @@ import { Component, NgModule } from '@angular/core';
 import { FormBuilder, FormControl,  ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { RegisterService } from '../../services/register.service';
+import { UserRegiser } from '../../interfaces/UserRegister';
 
   NgModule({
     declarations: [
@@ -22,14 +24,20 @@ import { HttpClient } from '@angular/common/http';
 })
 export class RegisterComponent {
 
-  constructor(private fb: FormBuilder){  }
+  constructor(private fb: FormBuilder, private rs: RegisterService, private router: Router){  }
 
   form = this.fb.group({
     'usuario': ['', Validators.required],
     'email': ['', [Validators.required, Validators.email]],
-    'password': ['', Validators.required],
-    'confirm_password': ['', Validators.required]
+    'password': ['', [Validators.required, Validators.minLength(8)]],
+    'confirm_password': ['', [Validators.required, Validators.minLength(8)]]
   })
+
+  public msg: string|null = null;
+  public emailError: Array<string>|null = null;
+  public passwordError: Array<string>|null = null;
+  public passwordConfirmationError: Array<string>|null = null;
+  public nombreError: Array<string>|null = null;
 
 
   get usuario() {
@@ -43,6 +51,20 @@ export class RegisterComponent {
   }
   get confirm_password() {
     return this.form.get('confirm_password') as FormControl
+  }
+
+  public userRegister: UserRegiser = {
+    nombre: "",
+    email: "",  
+    password: "",
+    password_confirmation: ""
+  }
+
+  disabledButton(): boolean {
+    if(this.password.value != this.confirm_password.value){
+      return true
+    }
+    return false
   }
 
   isInvalid: string = '';
@@ -60,11 +82,40 @@ export class RegisterComponent {
     return this.isInvalid = ''
   }
   
-  mostrar_datos(correo: string, contrasena: string){
-    console.log("Correo", correo);
-    console.log("Contraseña", contrasena);
-    
-    this.mostrarAlert = true
+
+  submit(){
+    this.userRegister.nombre = this.usuario.value
+    this.userRegister.password = this.password.value
+    this.userRegister.email = this.email.value
+    this.userRegister.password_confirmation = this.confirm_password.value
+    this.rs.registerUser(this.userRegister).subscribe(
+      (response) => {
+        this.msg = response.msg;
+        setTimeout(() => {
+          this.router.navigate([''])
+        }, 2000)
+      },
+      (error) => {
+        this.emailError = []
+        this.passwordError = []
+        this.nombreError = []
+        if(error.error.email){
+          error.error.email.forEach((error: string) => {
+            this.emailError?.push(error)
+          }) 
+        }
+        if(error.error.password){
+          error.error.password.forEach((error: string) => {
+            this.passwordError?.push(error)
+          }) 
+        }
+        if(error.error.nombre){
+          error.error.nombre.forEach((error: string) => {
+            this.nombreError?.push(error)
+          }) 
+        }
+      }
+    )
   }
 
 
