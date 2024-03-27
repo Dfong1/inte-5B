@@ -41,7 +41,7 @@ class AuthController extends Controller
             return response()->json(['msg' => 'no se pudo crear el token'], 500);
         }
         return response()->json(['token'=>$token,
-            'msg'=>'Inicio de sesion correcto, se le ha enviado un correo con un codigo de verificacion'],202);
+            'msg'=>'Inicio de sesion correcto'],202);
     }
     public function me(Request $request)
     {
@@ -50,12 +50,11 @@ class AuthController extends Controller
     }
     public function logout(Request $request)
     {
-        $user = JWTAuth::user();
-        $user->codigoVerificado = false;
-        $user->save();
-        auth()->logout();
-        $this->LogsMethod($request, $user);
-
+        try {
+            JWTAuth::invalidate(JWTAuth::getToken());
+        } catch (JWTException $e) {
+            return response()->json(['msg' => 'Algo salio mal'], 500);
+        }
         return response()->json(['message' => 'Successfully logged out']);
     }
 
@@ -73,10 +72,14 @@ class AuthController extends Controller
         ]);
     }
 
-    public function getIDbyToken($token)
+    public static function getIDbyToken($token)
     {
-        $payload = JWTAuth::parseToken($token);
-        return $payload->getPayload()['sub'];
+        try {
+            $payload = JWTAuth::parseToken($token);
+            return $payload->getPayload()['sub'];
+        } catch (JWTException $e) {
+            return null;
+        }
     }
 
 

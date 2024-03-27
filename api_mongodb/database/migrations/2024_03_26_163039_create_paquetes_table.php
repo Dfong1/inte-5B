@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('nombre', 20);
             $table->string('lugar', 20);
             $table->boolean('status')->default(true);
-            $table->integer('esp_id')->default('01');
+            $table->string('esp_id')->default('01');
             $table->foreignId('user_id')->references('id')->on('users');
-            $table->date('fecha_de_creacion');
+            $table->string('fecha_de_creacion');
         });
     }
 
