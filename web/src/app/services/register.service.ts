@@ -10,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class RegisterService {
 
-  private registerURL = `${api}/api/registry/user`
+  private registerURL = `${api}/api/register`
   constructor( private http: HttpClient ) { }
 
   registerUser(user: UserRegiser): Observable<Post> {

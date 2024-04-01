@@ -4,6 +4,7 @@ import { User } from '../interfaces/User';
 import { Observable } from 'rxjs';
 import { Login } from '../interfaces/Login';
 import { api }  from '../interfaces/Environment'
+import { Token } from '../interfaces/token';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { api }  from '../interfaces/Environment'
 export class LoginService {
 
   // Declaración de variables y URLS para petición
-  private loginUrl = `${api}/api/post/users/login`
+  private loginUrl = `${api}/api/login`
   private token: string|null = null;
   private static instance: LoginService
 
@@ -35,8 +36,12 @@ export class LoginService {
   /////////////////////
 
   // Petición para API (Login)
-  login(user: Login): Observable<User>{
-    return this.http.post<User>(this.loginUrl, user)
+  login(user: Login): Observable<Token>{
+    return this.http.post<Token>(this.loginUrl, user)
   }
   /////////////////////
+  VerificarAutenticacion(): Observable<any> {
+    let url = `${api}/api/user/me`
+    return this.http.get<any>(url)
+  }
 }

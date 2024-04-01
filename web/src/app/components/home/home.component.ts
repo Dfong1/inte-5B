@@ -16,22 +16,25 @@ import { NavbarComponent } from '../navbar/navbar.component';
 export class HomeComponent implements OnInit {
 
 
-  public user: User = {
-    data: {
-      id: 0,
-      nombre: "",
-      email: "",
-      rol_id: 0,
-    },
-    token: ""
+  public userData: User = {
+    id: 0,
+    name: "",
+    email: "",
+    activate: 0,
+    status: 0
   }
 
   constructor(private router: Router, private ud: UserDataService) { }
   // token = LoginService.getInstance().getToken()
-  userData = this.ud.getUserData()
-
   
   ngOnInit(): void {
+    this.ud.getUser().subscribe(
+      (response) => {
+        this.userData = response
+
+        console.log(this.userData)
+      }
+    )
   }
 
 }

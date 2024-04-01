@@ -22,6 +22,7 @@ import { UserRegiser } from '../../interfaces/UserRegister';
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
+
 export class RegisterComponent {
 
   constructor(private fb: FormBuilder, private rs: RegisterService, private router: Router){  }
