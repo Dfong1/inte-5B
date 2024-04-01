@@ -21,7 +21,7 @@ export const routes: Routes = [
             AppComponent,
             LoginComponent,
             RegisterComponent,
-            HomeComponent
+            HomeComponent,
         ],
         imports: [
             BrowserModule,

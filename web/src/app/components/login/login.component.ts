@@ -18,7 +18,7 @@ import {MatInput} from "@angular/material/input";
 export class LoginComponent {
 
   // Inyeccion de FormBuilder para formulario reactivo y LoginService para petición de Login
-  constructor(private fg: FormGroup, private ls: LoginService, private ud: UserDataService, private router: Router) {}
+  constructor( private ls: LoginService, private ud: UserDataService, private router: Router) {}
 
   public form = new FormGroup({
     email: new FormControl('', Validators.required),

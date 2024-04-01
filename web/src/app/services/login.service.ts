@@ -11,7 +11,7 @@ import { api }  from '../interfaces/Environment'
 export class LoginService {
 
   // Declaración de variables y URLS para petición
-  private loginUrl = `${api}/api/login/user`
+  private loginUrl = `${api}/api/post/users/login`
   private token: string|null = null;
   private static instance: LoginService
 
