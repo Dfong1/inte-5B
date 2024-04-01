@@ -5,11 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { UserDataService } from '../../services/user-data.service';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { PaquetesService } from '../../services/paquetes.service';
+import { Paquetes } from '../../interfaces/paquetes';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ RouterModule, NavbarComponent, FormsModule ],
+  imports: [ RouterModule, NavbarComponent, FormsModule, CommonModule ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -23,8 +26,9 @@ export class HomeComponent implements OnInit {
     activate: 0,
     status: 0
   }
+  public paquetes: Paquetes[] = []
 
-  constructor(private router: Router, private ud: UserDataService) { }
+  constructor( private ud: UserDataService, private ps: PaquetesService ) { }
   // token = LoginService.getInstance().getToken()
   
   ngOnInit(): void {
@@ -33,6 +37,14 @@ export class HomeComponent implements OnInit {
         this.userData = response
 
         console.log(this.userData)
+      }
+    )
+    
+    this.ps.getPaquetes().subscribe(
+      (response) => {
+        response.forEach((paquete) => {
+          this.paquetes.push(paquete)
+        })
       }
     )
   }

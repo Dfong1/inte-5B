@@ -9,10 +9,10 @@
   <app-navbar></app-navbar>
   
   <div class="container">
-      <div class="paquete">
+      <div class="paquete" *ngFor="let paquete of paquetes" id="{{ paquete.id }}">
           <div class="info">
-              <h2>Nombre del paquete</h2>
-              <p>Lugar del paquete</p>
+              <h2>{{ paquete.nombre }}</h2>
+              <p>{{ paquete.lugar }}</p>
           </div>
           <div class="acciones">
               <button class="btn btn-danger">

@@ -55,7 +55,7 @@ export class RegisterComponent {
   }
 
   public userRegister: UserRegiser = {
-    nombre: "",
+    name: "",
     email: "",  
     password: "",
     password_confirmation: ""
@@ -85,7 +85,7 @@ export class RegisterComponent {
   
 
   submit(){
-    this.userRegister.nombre = this.usuario.value
+    this.userRegister.name = this.usuario.value
     this.userRegister.password = this.password.value
     this.userRegister.email = this.email.value
     this.userRegister.password_confirmation = this.confirm_password.value
