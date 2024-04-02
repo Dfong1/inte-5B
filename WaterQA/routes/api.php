@@ -22,6 +22,7 @@ Route::get('/test/{id}',[HistorialPaquetesController::class,'index'])->where('id
 Route::middleware(['status.verify', 'auth:jwt'])->group(function() {
     Route::post('/paquete/create',[PaquetesController::class,'store']);
     Route::get('/paquetes',[PaquetesController::class,'index'])->middleware('auth:jwt');
+    Route::get('/buscar/paquete/{id}',[PaquetesController::class,'show'])->middleware('auth:jwt');
     Route::get('/get/id',[UsersController::class,'getUserIdFromToken']);
     Route::get('/user',[UsersController::class,'me']);
     Route::put('/change/led/{id}',[PaquetesController::class,'cambiarLed'])

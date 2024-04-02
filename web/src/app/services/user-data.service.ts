@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class UserDataService {
 
-  private meURL = `${api}/api/user/me`
+  private meURL = `${api}/api/user`
 
   constructor(private http: HttpClient) { }
   private userData: User = {

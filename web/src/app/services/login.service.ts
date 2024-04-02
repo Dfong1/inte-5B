@@ -41,7 +41,7 @@ export class LoginService {
   }
   /////////////////////
   VerificarAutenticacion(): Observable<any> {
-    let url = `${api}/api/user/me`
+    let url = `${api}/api/user`
     return this.http.get<any>(url)
   }
 }

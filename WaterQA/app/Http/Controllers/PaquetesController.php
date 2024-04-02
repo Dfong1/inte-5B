@@ -13,7 +13,7 @@ class PaquetesController extends Controller
 {
     public function index(Request $request)
     {
-        $paquetes = Paquete::where('user_id', AuthController::getIDbyToken($request->header('Authorization')))->get();
+        $paquetes = Paquete::where('user_id', AuthController::getIDbyToken($request->header('Authorization')))->where('status', '1') ->get();
         return response()->json($paquetes);
     }
 
@@ -25,7 +25,7 @@ class PaquetesController extends Controller
         ]);
 
         if($validaciones->fails()){
-            return response()->json(["Errores"=>$validaciones->errors(),"msg"=>"Error en los datos"],400);
+            return response()->json(["errores"=>$validaciones->errors(),"msg"=>"Error en los datos"],400);
         }
         $lastPackage= Paquete::where('user_id', AuthController::getIDbyToken($request->header('Authorization')))->latest('fecha_de_creacion')->first();
         if($lastPackage!==null)
@@ -75,7 +75,7 @@ class PaquetesController extends Controller
         ]);
 
         if ($validations->fails()) {
-            return response()->json(["Errores" => $validations->errors(), "msg" => "Error en los datos"], 400);
+            return response()->json(["errores" => $validations->errors(), "msg" => "Error en los datos"], 400);
         }
         Log::info($request->nombre);
         if($request->has('nombre')) $paquete->nombre = $request->nombre;
@@ -92,5 +92,15 @@ class PaquetesController extends Controller
         $paquete->status=!$status;
         $paquete->save();
         return response()->json(['msg' => 'Estado cambiado','data'=>$paquete], 200);
+    }
+
+    public function show($id){
+        $paquete = Paquete::find($id);
+
+        if(!$paquete){
+            return response()->json(['msg' => 'Paquete no encontrado'], 404);
+        }
+
+        return response()->json($paquete);
     }
 }
