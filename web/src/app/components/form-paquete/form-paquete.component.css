@@ -1,0 +1,26 @@
+.container{
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.formulario {
+    width: 100%;
+    height: auto;
+    box-shadow: 1px 4px 6px rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    padding: 5px;
+}
+
+.form{
+    width: 100%;
+    padding: 10px;
+}

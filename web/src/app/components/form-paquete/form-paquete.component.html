@@ -1,16 +1,43 @@
-<app-navbar></app-navbar>
-
-<div class="container">
-    <form>
-        <div class="mb-2">
-            <label for="">Nombre del paquete</label>
-            <input type="text" name="packageName" id="packageName" class="form-control" >
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de paquetes</title>
+</head>
+<body>
+    <app-navbar></app-navbar>
+    <div class="container">
+        <div class="alert alert-success" style="width: 100%;" *ngIf="successMessage">
+            {{ successMessage }}
+            <p>Redireccionando a pantalla principal</p>
         </div>
-        <div class="mb-2">
-            <label for="">Lugar del paquete</label>
-            <input type="text" name="packagePlace" id="packagePlace" class="form-control" >
+        <div class="formulario">
+            <h1 *ngIf="crear">Agregar nuevo paquete</h1>
+            <h1 *ngIf="editar">Editar el paquete con nombre: Nombre</h1>
+            <form class="form" [formGroup]="form" (submit)="onSubmit()" >
+                <div class="mb-2">
+                    <label for="">Nombre del paquete</label>
+                    <input type="text" name="packageName" formControlName="nombre" name="nombre" id="packageName" class="form-control" [class.is-invalid]="nombre.invalid && nombre.touched" >
+                    <div [hidden]="nombre.valid || nombre.pristine">
+                        <span class="text-danger" *ngIf="nombre.errors?.['required']">El nombre del paquete es obligatorio</span>
+                        <!-- <span class="text-danger" *ngIf="nombre.errors?.['pattern']">La contraseña debe ser de minimo 8 caracteres</span> -->
+                        <span class="text-danger" *ngIf="nombre.errors?.['maxlength']">El nombre debe tener maximo 20 caracteres</span>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <label for="">Lugar del paquete</label>
+                    <input type="text" name="packagePlace" formControlName="lugar" name="lugar" id="packagePlace" class="form-control" [class.is-invalid]="lugar.invalid && lugar.touched" >
+                    <div [hidden]="lugar.valid || lugar.pristine">
+                        <span class="text-danger" *ngIf="lugar.errors?.['required']">El lugar del paquete es obligatorio</span>
+                        <!-- <span class="text-danger" *ngIf="lugar.errors?.['pattern']">La contraseña debe ser de minimo 8 caracteres</span> -->
+                        <span class="text-danger" *ngIf="lugar.errors?.['maxlength']">El lugar debe tener maximo 20 caracteres</span>
+                    </div>
+                </div>
+            
+                <button class="btn btn-primary" style="width: 100%;" [disabled]="form.invalid">Guardar</button>
+            </form>
         </div>
-    
-        <button class="btn btn-primary" style="width: 100%;">Guardar</button>
-    </form>
-</div>
+    </div>
+</body>
+</html>

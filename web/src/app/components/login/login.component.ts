@@ -6,17 +6,16 @@ import { LoginService } from '../../services/login.service';
 import { User } from '../../interfaces/User';
 import { Login } from '../../interfaces/Login';
 import { UserDataService } from '../../services/user-data.service';
-import {MatInput} from "@angular/material/input";
 import { Token } from '../../interfaces/token';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterModule, FormsModule, MatInput],
+  imports: [ ReactiveFormsModule, CommonModule, RouterModule, FormsModule ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
-})
-export class LoginComponent {
+}) 
+export default class LoginComponent {
 
   // Inyeccion de FormBuilder para formulario reactivo y LoginService para petición de Login
   constructor( private ls: LoginService, private ud: UserDataService, private router: Router) {}

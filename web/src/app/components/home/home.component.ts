@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../../interfaces/User';
 import { LoginService } from '../../services/login.service';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule, } from '@angular/router';
 import { UserDataService } from '../../services/user-data.service';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { PaquetesService } from '../../services/paquetes.service';
@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent implements OnInit {
+export default class HomeComponent implements OnInit {
 
 
   public userData: User = {
@@ -42,6 +42,7 @@ export class HomeComponent implements OnInit {
     
     this.ps.getPaquetes().subscribe(
       (response) => {
+        console.log(response)
         response.forEach((paquete) => {
           this.paquetes.push(paquete)
         })
