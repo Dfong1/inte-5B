@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HistorialPaquetesController;
 use App\Http\Controllers\PaquetesController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
@@ -17,3 +18,5 @@ Route::get('/activate/{token}', [UsersController::class, 'activate'])->name('act
 
 Route::post('/paquete/create',[PaquetesController::class,'store']);
 Route::get('/paquetes',[PaquetesController::class,'index'])->middleware('auth:jwt');
+
+Route::get('/historial/{esp_id}',[HistorialPaquetesController::class,'index']);
