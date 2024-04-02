@@ -21,10 +21,9 @@ class HistorialEvent implements ShouldBroadcast
      * @return void
      */
 
-    public $data;
-    public function __construct($data)
+    public function __construct()
     {
-        $this->data=$data;
+
     }
 
     /**
@@ -34,12 +33,8 @@ class HistorialEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        Log::info($this->data);
         return new Channel('channel-history');
     }
 
-    public function broadcastWith()
-    {
-        return ['data' => $this->data];
-    }
+
 }

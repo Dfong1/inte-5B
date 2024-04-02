@@ -8,6 +8,6 @@ import { NavbarComponent } from '../navbar/navbar.component';
   templateUrl: './info-paquete.component.html',
   styleUrl: './info-paquete.component.css'
 })
-export class InfoPaqueteComponent {
+export default class InfoPaqueteComponent {
 
 }

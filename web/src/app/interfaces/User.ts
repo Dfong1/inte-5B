@@ -1,9 +1,7 @@
 export interface User{
-    data: {
-        id: Number
-        nombre: string
-        email: string
-        rol_id: Number
-    },
-    token: string
+    id: Number;
+    name: string;
+    email: string;
+    status: Number;
+    activate: Number
 }

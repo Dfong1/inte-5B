@@ -23,6 +23,11 @@ class UsersController extends Controller
             'password'=>'required|min:8',
         ]);
 
+        if($validate->fails()){
+            return response()->json(["error" => $validate->errors()], 422);
+        }
+
+
         $user = new User();
         $user->name=$request->name;
         $user->email=$request->email;
@@ -55,6 +60,13 @@ class UsersController extends Controller
         $user->save();
         return response()->view('AcceptedEmail');
     }
+
+    public function me(Request $request)
+    {
+        $user = auth()->user();
+        return response()->json($user, 200);
+    }
+
     public function getIDbyToken($token)
     {
         $payload = JWTAuth::parseToken($token);

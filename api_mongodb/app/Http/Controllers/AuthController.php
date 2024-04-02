@@ -43,11 +43,6 @@ class AuthController extends Controller
         return response()->json(['token'=>$token,
             'msg'=>'Inicio de sesion correcto'],202);
     }
-    public function me(Request $request)
-    {
-        $user = auth()->user();
-        return response()->json(auth()->user());
-    }
     public function logout(Request $request)
     {
         try {
@@ -81,6 +76,5 @@ class AuthController extends Controller
             return null;
         }
     }
-
 
 }

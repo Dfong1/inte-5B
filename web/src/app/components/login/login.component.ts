@@ -6,19 +6,19 @@ import { LoginService } from '../../services/login.service';
 import { User } from '../../interfaces/User';
 import { Login } from '../../interfaces/Login';
 import { UserDataService } from '../../services/user-data.service';
-import {MatInput} from "@angular/material/input";
+import { Token } from '../../interfaces/token';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterModule, FormsModule, MatInput],
+  imports: [ ReactiveFormsModule, CommonModule, RouterModule, FormsModule ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
-})
-export class LoginComponent {
+}) 
+export default class LoginComponent {
 
   // Inyeccion de FormBuilder para formulario reactivo y LoginService para petición de Login
-  constructor(private fg: FormGroup, private ls: LoginService, private ud: UserDataService, private router: Router) {}
+  constructor( private ls: LoginService, private ud: UserDataService, private router: Router) {}
 
   public form = new FormGroup({
     email: new FormControl('', Validators.required),
@@ -37,14 +37,18 @@ export class LoginComponent {
       email: "",
       password: ""
     }
-    public user: User = {
-      data: {
-        id: 0,
-        nombre: "",
-        email: "",
-        rol_id: 0,
-      },
+    
+    public token: Token = {
       token: "",
+      msg: ""
+    }
+
+    public user: User = {
+      id: 0,
+      name: "",
+      email: "",
+      activate: 0,
+      status: 0
     }
 
   onSubmit(event: Event){
@@ -53,23 +57,23 @@ export class LoginComponent {
     this.ls.login(this.userLogin).subscribe(
       (response) => {
         // Asignando datos al usuario
-        console.log("Response", response.data);
         localStorage.setItem('token', response.token)
 
-        this.user.data.id = response.data.id
-        this.user.data.nombre = response.data.nombre
-        this.user.data.email = response.data.email
-        this.user.data.rol_id = 1
-        this.user.token = response.token
-
-        this.ud.setUserData(this.user)
+        this.token.token = response.token
 
         this.ls.setToken(response.token)
+
+        this.ud.getUser().subscribe(
+          (response) => {
+            this.ud.setUserData(response)
+          }
+        )
 
         this.router.navigate(['/home'])
       },
       (error) => {
         // Muestra mensaje de error en caso de que el usuario haya introducido correo o contraseña incorrectos
+        this.message = null
         this.message = error.msg
       }
     )

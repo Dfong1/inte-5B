@@ -18,11 +18,12 @@ import { UserRegiser } from '../../interfaces/UserRegister';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterModule],
+  imports: [ ReactiveFormsModule, CommonModule, RouterModule ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
-export class RegisterComponent {
+
+export default class RegisterComponent {
 
   constructor(private fb: FormBuilder, private rs: RegisterService, private router: Router){  }
 
@@ -54,7 +55,7 @@ export class RegisterComponent {
   }
 
   public userRegister: UserRegiser = {
-    nombre: "",
+    name: "",
     email: "",  
     password: "",
     password_confirmation: ""
@@ -84,7 +85,7 @@ export class RegisterComponent {
   
 
   submit(){
-    this.userRegister.nombre = this.usuario.value
+    this.userRegister.name = this.usuario.value
     this.userRegister.password = this.password.value
     this.userRegister.email = this.email.value
     this.userRegister.password_confirmation = this.confirm_password.value
@@ -96,21 +97,24 @@ export class RegisterComponent {
         }, 2000)
       },
       (error) => {
-        this.emailError = []
-        this.passwordError = []
-        this.nombreError = []
         if(error.error.email){
+          this.emailError = null
+          this.emailError = []
           error.error.email.forEach((error: string) => {
             this.emailError?.push(error)
           }) 
         }
         if(error.error.password){
+          this.passwordError = null
+          this.passwordError = []
           error.error.password.forEach((error: string) => {
             this.passwordError?.push(error)
           }) 
         }
-        if(error.error.nombre){
-          error.error.nombre.forEach((error: string) => {
+        if(error.error.name){
+          this.nombreError = null
+          this.nombreError = []
+          error.error.name.forEach((error: string) => {
             this.nombreError?.push(error)
           }) 
         }

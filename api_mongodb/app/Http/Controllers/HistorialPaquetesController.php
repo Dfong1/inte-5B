@@ -12,7 +12,7 @@ class HistorialPaquetesController extends Controller
     public function index($esp_id)
     {
         $historial = HistorialPaquete::where('paquete_id', $esp_id)->latest('fecha')->first();
-        event(new HistorialEvent($historial));
+        event(new HistorialEvent());
     }
 
 

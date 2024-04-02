@@ -13,7 +13,7 @@ class PaquetesController extends Controller
     public function index(Request $request)
     {
         $paquetes = Paquete::where('user_id', AuthController::getIDbyToken($request->header('Authorization')))->get();
-        return response()->json([$paquetes]);
+        return response()->json($paquetes);
     }
 
     public function store(Request $request)
