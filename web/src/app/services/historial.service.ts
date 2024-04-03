@@ -8,7 +8,7 @@ import { api } from '../interfaces/Environment';
 export class HistorialService {
 
   constructor( private http: HttpClient, ) { }
-  private getSensorDataURL = `${api}/api/historial/`
+  private getSensorDataURL = `${api}/api/test/`
 
   getSensorData(id: Number){
     return this.http.get(this.getSensorDataURL + id)

@@ -40,6 +40,7 @@ export default class HomeComponent implements OnInit {
     esp_id: "",
     user_id: 0,
     fecha_de_creacion: "",
+    led: false
   }
 
   public check: boolean = false
@@ -47,16 +48,16 @@ export default class HomeComponent implements OnInit {
   constructor( private ud: UserDataService, private ps: PaquetesService ) { }
   // token = LoginService.getInstance().getToken()
   
-  encenderLed(id: Number){
-    this.ps.turnOnLed(id).subscribe(
-      (response) => {
-        console.log("Se hizo la peticion")
-      },
-      (error) => {
-        console.log("Error en la petición")
-      }
-    )
-  }
+  encenderLed(paquete: Paquetes){
+    this.ps.turnOnLed(paquete.id).subscribe(
+        (response) => {
+            console.log("Se hizo la petición");
+        },
+        (error) => {
+            console.log("Error en la petición");
+        }
+    );
+}
   ngOnInit(): void {
     this.ud.getUser().subscribe(
       (response) => {
@@ -67,8 +68,14 @@ export default class HomeComponent implements OnInit {
     this.ps.getPaquetes().subscribe(
       (response) => {
         console.log(response)
-        response.forEach((paquete) => {
+        response.forEach((paquete, index) => {
           this.paquetes.push(paquete)
+          if(paquete.led == false){
+            this.paquetes[index].led = false
+          }
+          else {
+            this.paquetes[index].led = true
+          }
         })
       }
     )

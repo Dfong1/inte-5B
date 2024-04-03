@@ -6,4 +6,5 @@ export interface Paquetes {
     esp_id: string;
     user_id: Number;
     fecha_de_creacion: string;
+    led: boolean
 }
