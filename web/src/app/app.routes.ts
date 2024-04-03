@@ -12,5 +12,5 @@ export const routes: Routes = [
     { path: 'home', loadComponent: () => HomeComponent, canActivate: [authGuard]},
     { path: 'formulario-paquetes', loadComponent: () =>  FormPaqueteComponent, canActivate: [authGuard]},
     { path: 'formulario-paquetes/:id', loadComponent: () =>  FormPaqueteComponent, canActivate: [authGuard]},
-    { path: 'info', loadComponent: () => InfoPaqueteComponent, canActivate: [authGuard]},
+    { path: 'info/:id', loadComponent: () => InfoPaqueteComponent, canActivate: [authGuard]},
 ];
