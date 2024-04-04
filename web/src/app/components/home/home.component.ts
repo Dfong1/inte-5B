@@ -51,10 +51,10 @@ export default class HomeComponent implements OnInit {
   encenderLed(paquete: Paquetes){
     this.ps.turnOnLed(paquete.id).subscribe(
         (response) => {
-            console.log("Se hizo la petición");
+          
         },
         (error) => {
-            console.log("Error en la petición");
+
         }
     );
 }
@@ -67,7 +67,6 @@ export default class HomeComponent implements OnInit {
     
     this.ps.getPaquetes().subscribe(
       (response) => {
-        console.log(response)
         response.forEach((paquete, index) => {
           this.paquetes.push(paquete)
           if(paquete.led == false){
