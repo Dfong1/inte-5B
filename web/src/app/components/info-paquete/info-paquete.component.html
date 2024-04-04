@@ -9,31 +9,33 @@
   <app-navbar></app-navbar>
     <div class="container">
       <div class="paquete-container bg-light p-4 rounded border-gray shadowed">
-        <div class="live-indicator">VIVO</div>
-      <h1 class="mb-4">Paquete: <!--{{paquetes[0].nombre_paquete}} --> Quinta Jose Torres xd.</h1>
+        <div style="display: flex; gap: 10px;">
+          <div class="live-indicator">VIVO</div>
+        <h1 class="mb-4">{{ paquete.nombre }}</h1>
+        </div>
       
       <div class="row">
         <!-- Sensor 1 -->
-        <div class="col-lg-4 col-md-6 mb-4">
+        <div class="col-lg-4 col-md-6 mb-4" *ngFor="let propiedad of valores.data.data.propiedades; let i = index">
           <div class="card shadowed">
             <div class="card-body">
               <h2 class="card-title">
-                <i class="material-icons">thermostat</i> <!-- Icono de temperatura -->
-                Sensor Temperatura
+                <!-- <i class="material-icons">thermostat</i> Icono de temperatura -->
+                {{ propiedad }}
               </h2>
-              <p class="card-text">Información del Sensor</p>
-              <p class="card-text">Información del Sensor</p>
+              <p class="card-text mb-0">Información del sensor</p>
+              <p class="card-text mt-0">{{ valores.data.data.valores[i] }}</p>
             </div>
           </div>
         </div>
         
-        <!-- Sensor 2 -->
+        <!-- Sensor 2
         <div class="col-lg-4 col-md-6 mb-4">
           <div class="card shadowed">
             <div class="card-body">
               <h2 class="card-title">
                 <i class="material-symbols-outlined">
-                water_ph</i> <!-- Icono de temperatura -->
+                water_ph</i> <!-- Icono de temperatura 
                 Sensor PH
               </h2>
               <p class="card-text">Información del Sensor</p>
@@ -44,12 +46,12 @@
           </div>
         </div>
         
-        <!-- Sensor 3 -->
+        <!-- Sensor 3 
         <div class="col-lg-4 col-md-6 mb-4">
           <div class="card shadowed">
             <div class="card-body">
               <h2 class="card-title">
-                <i class="material-symbols-outlined">water_full</i> <!-- Icono de temperatura -->
+                <i class="material-symbols-outlined">water_full</i> <!-- Icono de temperatura
                 Sensor Turbidez
               </h2>
               <p class="card-text">Información del Sensor</p>
@@ -59,12 +61,12 @@
           </div>
         </div>
         
-        <!-- Sensor 4 -->
+        <!-- Sensor 4 
         <div class="col-lg-4 col-md-6 mb-4">
           <div class="card shadowed">
             <div class="card-body">
               <h2 class="card-title">
-                <i class="material-symbols-outlined">water_ec</i> <!-- Icono de temperatura -->
+                <i class="material-symbols-outlined">water_ec</i> <!-- Icono de temperatura
                 Sensor Conductividad
               </h2>
               <p class="card-text">Información del Sensor</p>
@@ -74,12 +76,12 @@
           </div>
         </div>
         
-        <!-- Sensor 5 -->
+        <!-- Sensor 5 
         <div class="col-lg-4 col-md-6 mb-4">
           <div class="card shadowed">
             <div class="card-body">
               <h2 class="card-title">
-                <i class="material-symbols-outlined">water</i> <!-- Icono de temperatura -->
+                <i class="material-symbols-outlined">water</i> <!-- Icono de temperatura
                 Sensor Nivel de Agua
               </h2>
               <p class="card-text">Información del Sensor</p>
@@ -89,12 +91,12 @@
           </div>
         </div>
         
-        <!-- Sensor 6 -->
+        <!-- Sensor 6 
         <div class="col-lg-4 col-md-6 mb-4">
           <div class="card shadowed">
             <div class="card-body">
               <h2 class="card-title">
-                <i class="material-symbols-outlined">thermostat</i> <!-- Icono de temperatura -->
+                <i class="material-symbols-outlined">thermostat</i> <!-- Icono de temperatura 
                 Sensor Temperatura
               </h2>
               <p class="card-text">Información del Sensor</p>
@@ -102,9 +104,12 @@
               <p class="card-text">Información del Sensor</p>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
       </div>
+      <button class="btn" style="width: 100%; background-color: #99d9e2;" routerLink="/home">
+        Volver a pantalla de inicio
+      </button>
     </div>
   
 </body>

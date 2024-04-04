@@ -9,7 +9,7 @@ import { PaquetesService } from '../../services/paquetes.service';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [ RouterLink, CommonModule ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
