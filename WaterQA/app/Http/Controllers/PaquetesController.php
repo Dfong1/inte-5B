@@ -30,12 +30,18 @@ class PaquetesController extends Controller
         $lastPackage= Paquete::where('user_id', AuthController::getIDbyToken($request->header('Authorization')))->latest('fecha_de_creacion')->first();
         if($lastPackage!==null)
         {
-            Log::info($lastPackage);
             $id= (int)$lastPackage->esp_id;
             $id++;
-            Log::info($id);
             $esp_id= '0'.$id;
-            Log::info($esp_id);
+            if(strlen($esp_id) > 2)
+            {
+                $split = substr($esp_id, 1);
+                Log::info($split);
+                $esp_id = $split;
+                //TODO: limite 99 paquetes por usuario
+                if($esp_id==='99')
+                    return response()->json(["msg"=>"No se pueden crear más paquetes"],400);
+            }
         }
         else
         {
