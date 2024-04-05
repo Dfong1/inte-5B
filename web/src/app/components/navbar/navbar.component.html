@@ -8,7 +8,7 @@
         </li>
         <li class="item" *ngIf="ruta == false">
             <label class="switch">
-                <input type="checkbox" >
+                <input type="checkbox" [(ngModel)]="paquete.led" (change)="encenderLed(paquete.id)" >
                 <span class="slider"></span>
             </label>
         </li>

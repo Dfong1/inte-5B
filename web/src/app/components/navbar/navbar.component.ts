@@ -5,11 +5,13 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { User } from '../../interfaces/User';
 import { CommonModule } from '@angular/common';
 import { PaquetesService } from '../../services/paquetes.service';
+import { Paquetes } from '../../interfaces/paquetes';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [ RouterLink, CommonModule ],
+  imports: [ RouterLink, CommonModule, FormsModule ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -24,6 +26,16 @@ export class NavbarComponent implements OnInit {
     status: 0,
     activate: 0,
   }
+  public paquete: Paquetes = {
+    id: 0,
+    led: false,
+    lugar: "",
+    nombre: "",
+    status: true,
+    user_id: 0,
+    esp_id: "",
+    fecha_de_creacion: "",
+  }
 
   public ruta: boolean = true
   
@@ -32,6 +44,18 @@ export class NavbarComponent implements OnInit {
     if(this.router.url == '/info/' + params['id']){
       // console.log("INFO")
       this.ruta = false
+      this.ps.getPaquete(params['id'][1]).subscribe(
+        (response) => {
+          this.paquete.id = response.id
+          this.paquete.led = response.led
+          this.paquete.lugar = response.lugar
+          this.paquete.nombre = response.nombre
+          this.paquete.status = response.status
+          this.paquete.user_id = response.user_id
+          this.paquete.esp_id = response.esp_id
+          this.paquete.fecha_de_creacion = response.fecha_de_creacion
+        }
+      )
     }
     else{
       this.ruta = true
