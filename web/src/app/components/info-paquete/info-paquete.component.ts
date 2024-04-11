@@ -57,6 +57,7 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
 
     this.ps.getPaquete(params['id'][1]).subscribe(
       (response) => {
+        console.log(response)
         this.paquete.id = response.id
         this.paquete.led = response.led
         this.paquete.lugar = response.lugar
