@@ -32,6 +32,9 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
       fecha: ""
     }
   }
+
+  
+
   public paquete: Paquetes = {
     id: 0,
     led: false,
