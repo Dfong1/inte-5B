@@ -35,4 +35,6 @@ Route::middleware(['status.verify', 'auth:jwt'])->group(function() {
     Route::delete('/status/paquete/{id}',[PaquetesController::class,'destroy']);
 });
 
+Route::post('/historial/avarage',[HistorialPaquetesController::class,'avarge_per_day']);
+
 

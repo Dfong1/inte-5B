@@ -38,4 +38,14 @@ class HistorialPaquetesController extends Controller
         return response()->json(['data'=>$historial],200);
     }
 
+    public function avarge_per_day(Request $request){
+        $sensor = $request->sensor;
+        $paquete_id = $request->paquete_id;
+        $promedio = HistorialPaquete::promedioPorDiaSensor($sensor,$paquete_id);
+        return response()->json(['data'=>$promedio],200);
+    }
+
+
+
+
 }
