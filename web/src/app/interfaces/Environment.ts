@@ -1,5 +1,4 @@
 import Echo from "laravel-echo"
-
 export const api = 'http://192.168.253.180:8000'
 export const echo: Echo = new Echo({
     broadcaster:'pusher',
