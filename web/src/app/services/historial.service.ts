@@ -10,7 +10,7 @@ import { ValoresPaquete } from '../interfaces/valores-paquete';
 export class HistorialService {
 
   constructor( private http: HttpClient, ) { }
-  private getSensorDataURL = `${api}/api/test/`
+  private getSensorDataURL = `${api}/api/get/data/sensor/`
   public historial: ValoresPaquete = {
     data: {
       data: {

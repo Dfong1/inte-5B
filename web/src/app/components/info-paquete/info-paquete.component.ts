@@ -46,13 +46,13 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const params = this.route.snapshot.params
-    const pollingInterval = 2000
+    const pollingInterval = 5000
 
     this.pollingSubscription = interval(pollingInterval).pipe(
       switchMap(() => this.hs.getSensorData(params['id']))
       ).subscribe()
       this.websocket()
-    
+
     this.valores = this.hs.getData()
 
     this.ps.getPaquete(params['id'][1]).subscribe(
