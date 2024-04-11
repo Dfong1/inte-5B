@@ -2,7 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { HistorialService } from '../../services/historial.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import Echo from 'laravel-echo'
+import {ChartDataset, ChartOptions, Chart, LinearScale,BarController,CategoryScale,BarElement} from "chart.js";
+import ChartDataLabels from 'chartjs-plugin-datalabels'
+Chart.register(LinearScale,BarController,CategoryScale,BarElement,ChartDataLabels);
 import  Pusher  from 'pusher-js'
 import { echo } from '../../interfaces/Environment';
 import { ValoresPaquete } from '../../interfaces/valores-paquete';
@@ -10,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { PaquetesService } from '../../services/paquetes.service';
 import { Paquetes } from '../../interfaces/paquetes';
 import { Subscription, interval, switchMap } from 'rxjs';
+import {Estadisitca} from "../../interfaces/estadisitca";
 (window as any).Pusher = Pusher
 
 @Component({
@@ -32,8 +35,22 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
       fecha: ""
     }
   }
+  public seleccionado: ValoresPaquete = {
+    data: {
+      data: {
+        propiedades: [],
+        valores: []
+      },
+      fecha: ""
+    }
+  }
 
-  
+  public estadistica: Estadisitca = {
+    data: [{
+        _id: "",
+        promedio: 0
+      }]
+    }
 
   public paquete: Paquetes = {
     id: 0,
@@ -81,6 +98,16 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
     })
     console.log(echo)
     echo.connect()
+  }
+
+  openModal(sensor: string, paquete_id: string, ) {
+    console.log(sensor)
+    this.hs.getAvarage(sensor, paquete_id).subscribe(
+      (response) => {
+        this.estadistica = response
+        console.log("ESTADISTICA",this.estadistica)
+      }
+    )
   }
 
   ngOnDestroy(): void {

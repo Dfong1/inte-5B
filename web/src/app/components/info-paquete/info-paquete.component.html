@@ -13,11 +13,11 @@
           <div class="live-indicator">VIVO</div>
         <h1 class="mb-4">{{ paquete.nombre }}</h1>
         </div>
-      
+
       <div class="row">
         <!-- Sensor 1 -->
-        <div class="col-lg-4 col-md-6 mb-4" *ngFor="let propiedad of valores.data.data.propiedades; let i = index">
-          <div class="card shadowed">
+        <div class="col-lg-4 col-md-6 mb-4" *ngFor="let propiedad of valores.data.data.propiedades; let i = index" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <div class="card shadowed" (click)="openModal(propiedad, '01')">
             <div class="card-body">
               <h2 class="card-title">
                 <!-- <i class="material-icons">thermostat</i> Icono de temperatura -->
@@ -28,91 +28,31 @@
             </div>
           </div>
         </div>
-        
-        <!-- Sensor 2
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card shadowed">
-            <div class="card-body">
-              <h2 class="card-title">
-                <i class="material-symbols-outlined">
-                water_ph</i> <!-- Icono de temperatura 
-                Sensor PH
-              </h2>
-              <p class="card-text">Información del Sensor</p>
-              <p class="card-text">Información del Sensor</p>
-              <p class="card-text">Información del Sensor</p>
-    
-            </div>
-          </div>
-        </div>
-        
-        <!-- Sensor 3 
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card shadowed">
-            <div class="card-body">
-              <h2 class="card-title">
-                <i class="material-symbols-outlined">water_full</i> <!-- Icono de temperatura
-                Sensor Turbidez
-              </h2>
-              <p class="card-text">Información del Sensor</p>
-              <p class="card-text">Información del Sensor</p>
-              <p class="card-text">Información del Sensor</p>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Sensor 4 
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card shadowed">
-            <div class="card-body">
-              <h2 class="card-title">
-                <i class="material-symbols-outlined">water_ec</i> <!-- Icono de temperatura
-                Sensor Conductividad
-              </h2>
-              <p class="card-text">Información del Sensor</p>
-              <p class="card-text">Información del Sensor</p>
-              <p class="card-text">Información del Sensor</p>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Sensor 5 
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card shadowed">
-            <div class="card-body">
-              <h2 class="card-title">
-                <i class="material-symbols-outlined">water</i> <!-- Icono de temperatura
-                Sensor Nivel de Agua
-              </h2>
-              <p class="card-text">Información del Sensor</p>
-              <p class="card-text">Información del Sensor</p>
-              <p class="card-text">Información del Sensor</p>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Sensor 6 
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card shadowed">
-            <div class="card-body">
-              <h2 class="card-title">
-                <i class="material-symbols-outlined">thermostat</i> <!-- Icono de temperatura 
-                Sensor Temperatura
-              </h2>
-              <p class="card-text">Información del Sensor</p>
-              <p class="card-text">Información del Sensor</p>
-              <p class="card-text">Información del Sensor</p>
-            </div>
-          </div>
-        </div> -->
       </div>
       </div>
       <button class="btn" style="width: 100%; background-color: #99d9e2;" routerLink="/home">
         Volver a pantalla de inicio
       </button>
     </div>
-  
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
 
-  
