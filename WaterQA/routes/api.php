@@ -15,7 +15,7 @@ Route::post('/register',[UsersController::class,'store']);
 Route::get('/activate/{token}', [UsersController::class, 'activate'])->name('activate');
 Route::post('/login',[AuthController::class,'login']);
 
-Route::get('/test/{id}',[HistorialPaquetesController::class,'index'])->where('id', '[0-9]{2}');
+
 
 
 
@@ -29,7 +29,7 @@ Route::middleware(['status.verify', 'auth:jwt'])->group(function() {
         ->where('id', '[0-9]+');
     Route::get('/historial/{id}',[HistorialPaquetesController::class,'show'])
     ->where('id', '[0-9]{2}');
-
+    Route::get('/get/data/sensor/{id}',[HistorialPaquetesController::class,'index'])->where('id', '[0-9]{2}');
     Route::put('/edit/paquete/{id}',[PaquetesController::class,'update'])
         ->where('id', '[0-9]+');
     Route::delete('/status/paquete/{id}',[PaquetesController::class,'destroy']);
