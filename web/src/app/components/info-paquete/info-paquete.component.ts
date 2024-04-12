@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { HistorialService } from '../../services/historial.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -15,6 +15,10 @@ import { Subscription, interval, switchMap } from 'rxjs';
 import {Estadisitca} from "../../interfaces/estadisitca";
 (window as any).Pusher = Pusher
 
+export interface ChartData {
+  _id: string;
+  promedio: number;
+}
 @Component({
   selector: 'app-info-paquete',
   standalone: true,
@@ -22,7 +26,10 @@ import {Estadisitca} from "../../interfaces/estadisitca";
   templateUrl: './info-paquete.component.html',
   styleUrl: './info-paquete.component.css'
 })
-export default class InfoPaqueteComponent implements OnInit, OnDestroy {
+export default class InfoPaqueteComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('chartCanvas') chartCanvas:any;
+  private chart?: Chart;
+
 
   constructor( private route: ActivatedRoute, private hs: HistorialService, private ps: PaquetesService, ) { }
 
@@ -62,6 +69,9 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
     esp_id: "",
     fecha_de_creacion: "",
   }
+  public promedio: any = [];
+  public labelList:any = [];
+  public sensorName: string = ""
   private pollingSubscription: Subscription = new Subscription()
 
   ngOnInit(): void {
@@ -101,11 +111,55 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
   }
 
   openModal(sensor: string, paquete_id: string, ) {
-    console.log(sensor)
+    if (this.chart && this.labelList.length > 0 && this.promedio.length > 0) {
+      this.chart.destroy();
+      this.labelList = []
+      this.promedio = []
+    }
+    this.sensorName = sensor
     this.hs.getAvarage(sensor, paquete_id).subscribe(
       (response) => {
-        this.estadistica = response
-        console.log("ESTADISTICA",this.estadistica)
+        this.estadistica.data = response.data;
+        for (let item of this.estadistica.data) {
+          this.labelList.push(item._id);
+          this.promedio.push(item.promedio);
+        }
+        const data: ChartDataset = {
+          label: 'Volumen de tráfico',
+          data: this.promedio,
+          backgroundColor: 'rgba(75,192,192,0.4)',
+          borderColor: 'rgba(75,192,192,1)',
+          borderWidth: 1,
+        };
+
+        const options: ChartOptions = {
+          indexAxis: 'y',
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+          plugins: {
+            datalabels: {
+              align: 'center',
+              anchor: 'center',
+              color: '#000',
+
+              font: {
+                size: 15,
+              }
+            }
+          },
+        };
+
+        this.chart = new Chart(this.chartCanvas.nativeElement, {
+          type: 'bar',
+          data: {
+            labels: this.labelList,
+            datasets: [data],
+          },
+          options: options,
+        });
       }
     )
   }
@@ -113,6 +167,9 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     echo.disconnect()
     this.pollingSubscription.unsubscribe()
+  }
+  ngAfterViewInit(): void {
+    console.log(this.chartCanvas.nativeElement);
   }
 
 }

@@ -68,7 +68,8 @@ class PaquetesController extends Controller
         $paquete = Paquete::find($id);
         $paquete->led = !$paquete->led;
         $paquete->save();
-        event(new PaqueteEvent($paquete->led));
+        $led= $paquete->led ? 1 : "0";
+        event(new PaqueteEvent($led));
     }
 
     public function update(Request $request,$id)
