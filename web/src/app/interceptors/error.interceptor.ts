@@ -1,14 +1,8 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
 
-export const errorInterceptor: HttpInterceptorFn = (req, next) => { 
-
+export const errorshandlerInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(catchError((error: HttpErrorResponse) => {
-
-    const errorBody = error.error;
-    console.error('Errores de validación:', errorBody);
-
-    return throwError(errorBody);
+    return throwError(error);
   }));
-  
 };

@@ -14,7 +14,7 @@ class HistorialPaquetesController extends Controller
         $historial = HistorialPaquete::where('paquete_id', $esp_id)->latest('fecha')->first();
         Log::info($historial);
         if(!$historial){
-            return response()->json(['message' => 'No Hay datos registrados'],400);
+            return response()->json(['message' => 'No Hay datos registrados'],404);
         }
         $fecha = $historial->fecha;
         $dataarray=json_decode($historial,true);
