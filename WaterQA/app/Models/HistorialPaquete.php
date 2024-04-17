@@ -13,6 +13,8 @@ class HistorialPaquete extends Model
     use HasFactory;
     protected $connection = 'mongodb';
     protected $collection = 'historial_paquetes';
+    public $timestamps = false;
+    protected $guarded = [];
 
     public static function promedioPorDiaSensor($sensor,$paquete_id)
     {

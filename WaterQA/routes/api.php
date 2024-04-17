@@ -25,7 +25,7 @@ Route::middleware(['status.verify', 'auth:jwt'])->group(function() {
     Route::get('/buscar/paquete/{id}',[PaquetesController::class,'show'])->middleware('auth:jwt');
     Route::get('/get/id',[UsersController::class,'getUserIdFromToken']);
     Route::get('/user',[UsersController::class,'me']);
-    Route::put('/change/led/{id}',[PaquetesController::class,'cambiarLed'])
+    Route::post('/change/led/{id}',[PaquetesController::class,'cambiarLed'])
         ->where('id', '[0-9]+');
     Route::get('/historial/{id}',[HistorialPaquetesController::class,'show'])
     ->where('id', '[0-9]{2}');
@@ -33,8 +33,9 @@ Route::middleware(['status.verify', 'auth:jwt'])->group(function() {
     Route::put('/edit/paquete/{id}',[PaquetesController::class,'update'])
         ->where('id', '[0-9]+');
     Route::delete('/status/paquete/{id}',[PaquetesController::class,'destroy']);
+    Route::post('/historial/avarage',[HistorialPaquetesController::class,'avarge_per_day']);
 });
 
-Route::post('/historial/avarage',[HistorialPaquetesController::class,'avarge_per_day']);
+Route::post('/historial/save',[HistorialPaquetesController::class,'store']);
 
 

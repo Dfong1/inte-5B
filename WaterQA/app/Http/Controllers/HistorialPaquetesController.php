@@ -6,6 +6,7 @@ use App\Events\HistoryEvent;
 use App\Models\HistorialPaquete;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class HistorialPaquetesController extends Controller
 {
@@ -26,6 +27,22 @@ class HistorialPaquetesController extends Controller
         $data=(object)['valores'=>$valores,'propiedades'=>$propiedades];
         $msg=(object)['fecha'=>$fecha,'data'=>$data];
         event(new HistoryEvent($msg));
+        return null;
+    }
+
+    public function store(Request $request)
+    {
+        $validaciones = Validator::make($request->all(),[
+            'data'=>'required'
+        ]);
+
+        if ($validaciones->fails()) {
+            return response()->json(['errores'=>$validaciones->errors(),'msg'=>'Error en los datos'],400);
+        }
+
+        $historial = HistorialPaquete::create($request->data);
+        $this->index($historial->paquete_id);
+        return response()->json(['data'=>$historial],201);
     }
 
     public function show($id)
