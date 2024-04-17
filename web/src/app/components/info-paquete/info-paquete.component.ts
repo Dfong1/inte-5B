@@ -26,7 +26,7 @@ export interface ChartData {
   templateUrl: './info-paquete.component.html',
   styleUrl: './info-paquete.component.css'
 })
-export default class InfoPaqueteComponent implements OnInit, OnDestroy, AfterViewInit {
+export default class InfoPaqueteComponent implements OnInit, OnDestroy {
   @ViewChild('chartCanvas') chartCanvas:any;
   private chart?: Chart;
 
@@ -73,21 +73,14 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy, AfterVie
   public labelList:any = [];
   public sensorName: string = ""
   private pollingSubscription: Subscription = new Subscription()
+  public errorMessage: string|null = null;
 
   ngOnInit(): void {
     const params = this.route.snapshot.params
-    const pollingInterval = 5000
+    this.websocket()
 
-    this.pollingSubscription = interval(pollingInterval).pipe(
-      switchMap(() => this.hs.getSensorData(params['id']))
-      ).subscribe()
-      this.websocket()
-
-    this.valores = this.hs.getData()
-
-    this.ps.getPaquete(params['id'][1]).subscribe(
+    this.ps.getPaquete(params['id']).subscribe(
       (response) => {
-        console.log(response)
         this.paquete.id = response.id
         this.paquete.led = response.led
         this.paquete.lugar = response.lugar
@@ -98,15 +91,24 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy, AfterVie
         this.paquete.fecha_de_creacion = response.fecha_de_creacion
       }
     )
+    const pollingInterval = 5000
+
+    this.pollingSubscription = interval(pollingInterval).pipe(
+      switchMap(() => this.hs.getSensorData(params['id']))
+      ).subscribe(
+        (response) => {},
+        (error) => {
+          this.errorMessage = error.error.message
+        }
+      )    
 
   }
 
   websocket(){
     echo.channel('history').listen('HistoryEvent',(res:ValoresPaquete)=>{
       this.valores = res
-      this.hs.setData(res)
     })
-    console.log(echo)
+
     echo.connect()
   }
 
@@ -168,8 +170,6 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy, AfterVie
     echo.disconnect()
     this.pollingSubscription.unsubscribe()
   }
-  ngAfterViewInit(): void {
-    console.log(this.chartCanvas.nativeElement);
-  }
+
 
 }
