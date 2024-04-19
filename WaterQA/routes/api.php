@@ -34,6 +34,7 @@ Route::middleware(['status.verify', 'auth:jwt'])->group(function() {
         ->where('id', '[0-9]+');
     Route::delete('/status/paquete/{id}',[PaquetesController::class,'destroy']);
     Route::post('/historial/avarage',[HistorialPaquetesController::class,'avarge_per_day']);
+    Route::get('/historial/app/{id}',[HistorialPaquetesController::class,'index_app']);
 });
 
 Route::post('/historial/save',[HistorialPaquetesController::class,'store']);

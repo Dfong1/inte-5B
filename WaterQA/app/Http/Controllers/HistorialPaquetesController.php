@@ -30,6 +30,25 @@ class HistorialPaquetesController extends Controller
         return null;
     }
 
+    public function index_app($esp_id)
+    {
+        $historial = HistorialPaquete::where('paquete_id', $esp_id)->latest('fecha')->first();
+        Log::info($historial);
+        if(!$historial){
+            return response()->json(['message' => 'No Hay datos registrados'],404);
+        }
+        $fecha = $historial->fecha;
+        $dataarray=json_decode($historial,true);
+        unset($dataarray['_id']);
+        unset($dataarray['paquete_id']);
+        unset($dataarray['fecha']);
+        $propiedades = array_keys($dataarray);
+        $valores = array_values($dataarray);
+        $data=(object)['valores'=>$valores,'propiedades'=>$propiedades];
+        $msg=(object)['fecha'=>$fecha,'data'=>$data];
+        return response()->json(['data'=>$msg],200);
+    }
+
     public function store(Request $request)
     {
         $validaciones = Validator::make($request->all(),[
