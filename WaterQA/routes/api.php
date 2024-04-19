@@ -14,15 +14,16 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register',[UsersController::class,'store']);
 Route::get('/activate/{token}', [UsersController::class, 'activate'])->name('activate');
 Route::post('/login',[AuthController::class,'login']);
+Route::post('/logout',[AuthController::class,'logout'])->middleware('auth:api');
 
 
 
 
 
-Route::middleware(['status.verify', 'auth:jwt'])->group(function() {
+Route::middleware(['status.verify', 'auth:api'])->group(function() {
     Route::post('/paquete/create',[PaquetesController::class,'store']);
-    Route::get('/paquetes',[PaquetesController::class,'index'])->middleware('auth:jwt');
-    Route::get('/buscar/paquete/{id}',[PaquetesController::class,'show'])->middleware('auth:jwt');
+    Route::get('/paquetes',[PaquetesController::class,'index'])->middleware('auth:api');
+    Route::get('/buscar/paquete/{id}',[PaquetesController::class,'show'])->middleware('auth:api');
     Route::get('/get/id',[UsersController::class,'getUserIdFromToken']);
     Route::get('/user',[UsersController::class,'me']);
     Route::post('/change/led/{id}',[PaquetesController::class,'cambiarLed'])
