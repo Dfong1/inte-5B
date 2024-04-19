@@ -63,13 +63,14 @@ class PaquetesController extends Controller
         return response()->json($paquete);
     }
 
-    public function cambiarLed($id)
+    public function cambiarLed($id, Request $request)
     {
         $paquete = Paquete::find($id);
-        $paquete->led = !$paquete->led;
+        Log::info($request->led);
+        $paquete->led = $request->led;
         $paquete->save();
-        $led= $paquete->led ? 1 : "0";
-        event(new PaqueteEvent($led));
+        $led= $request->led;
+        event(new PaqueteEvent((int)$led));
     }
 
     public function update(Request $request,$id)
