@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial</title>
+</head>
+<body>
+    
+    <app-navbar></app-navbar>
+
+    <div *ngFor="let dato of data.data" style="display: flex;  border: 1px solid black; margin-top: 5px; margin-bottom: 15px;">
+        <table  >
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th *ngFor="let key of getKeys(dato)"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let key of getKeys(dato)">
+                    <td>{{ key }}: {{ dato[key] }}</td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+
+</body>
+</html>

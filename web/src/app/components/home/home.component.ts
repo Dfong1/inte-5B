@@ -10,6 +10,7 @@ import { Paquetes } from '../../interfaces/paquetes';
 import { CommonModule } from '@angular/common';
 import { Messages } from '../../interfaces/messages';
 
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -17,7 +18,7 @@ import { Messages } from '../../interfaces/messages';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export default class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit {
 
 
   public userData: User = {
@@ -48,25 +49,32 @@ export default class HomeComponent implements OnInit {
   constructor( private ud: UserDataService, private ps: PaquetesService ) { }
   // token = LoginService.getInstance().getToken()
   
+  private mandarLed: Number = 0
+
   encenderLed(paquete: Paquetes){
-    this.ps.turnOnLed(paquete.id).subscribe(
+
+    this.ps.turnOnLed(paquete.led, paquete.id).subscribe(
         (response) => {
-          
+          console.log(response)
         },
         (error) => {
 
         }
     );
 }
+
+
   ngOnInit(): void {
     this.ud.getUser().subscribe(
       (response) => {
         this.userData = response
       }
     )
+
     
     this.ps.getPaquetes().subscribe(
       (response) => {
+        console.log(response)
         response.forEach((paquete, index) => {
           this.paquetes.push(paquete)
           if(paquete.led == false){
@@ -75,6 +83,7 @@ export default class HomeComponent implements OnInit {
           else {
             this.paquetes[index].led = true
           }
+          this.check = paquete.led
         })
       }
     )
@@ -84,6 +93,24 @@ export default class HomeComponent implements OnInit {
     this.ps.deletePaquete(id).subscribe(
       (response) => {
         this.message.msg = response.msg
+        
+        this.ps.getPaquetes().subscribe(
+          (response) => {
+            this.paquetes = []
+            console.log(response)
+            response.forEach((paquete, index) => {
+              this.paquetes.push(paquete)
+              if(paquete.led == false){
+                this.paquetes[index].led = false
+              }
+              else {
+                this.paquetes[index].led = true
+              }
+              this.check = paquete.led
+            })
+          }
+        )
+
       },
       (error) => {
         this.message.errores = error.errores

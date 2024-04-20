@@ -1,16 +1,13 @@
 import { Routes } from '@angular/router';
-import LoginComponent  from './components/login/login.component';
-import RegisterComponent from './components/register/register.component';
-import HomeComponent from './components/home/home.component';
-import FormPaqueteComponent from './components/form-paquete/form-paquete.component';
-import InfoPaqueteComponent from './components/info-paquete/info-paquete.component';
 import { authGuard } from './guards/auth.guard';
+import InfoPaqueteComponent from './components/info-paquete/info-paquete.component';
 
 export const routes: Routes = [
-    { path: '', loadComponent: () => LoginComponent},
-    { path: 'register', loadComponent: () => RegisterComponent },
-    { path: 'home', loadComponent: () => HomeComponent, canActivate: [authGuard]},
-    { path: 'formulario-paquetes', loadComponent: () =>  FormPaqueteComponent, canActivate: [authGuard]},
-    { path: 'formulario-paquetes/:id', loadComponent: () =>  FormPaqueteComponent, canActivate: [authGuard]},
-    { path: 'info/:id', loadComponent: () => InfoPaqueteComponent, canActivate: [authGuard]},
+    { path: '', loadComponent: () => import('./components/login/login.component').then(l => l.LoginComponent) },
+    { path: 'register', loadComponent: () => import('./components/register/register.component').then(r => r.RegisterComponent) },
+    { path: 'home', loadComponent: () => import('./components/home/home.component').then(h => h.HomeComponent), canActivate: [authGuard]},
+    { path: 'formulario-paquetes', loadComponent: () =>  import('./components/form-paquete/form-paquete.component').then(f => f.FormPaqueteComponent), canActivate: [authGuard]},
+    { path: 'historial/:id', loadComponent: () =>  import('./components/historial/historial.component').then(h => h.HistorialComponent), canActivate: [authGuard]},
+    { path: 'formulario-paquetes/:id', loadComponent: () =>  import('./components/form-paquete/form-paquete.component').then(f => f.FormPaqueteComponent), canActivate: [authGuard]},
+    { path: 'info/:id', loadComponent: () =>  InfoPaqueteComponent, canActivate: [authGuard]},
 ];
