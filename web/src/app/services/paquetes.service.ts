@@ -37,8 +37,8 @@ export class PaquetesService {
   deletePaquete(id: Number): Observable<Messages> {
     return this.http.delete<Messages>(this.deletePaqueteURL + id)
   }
-  turnOnLed(id: Number){
-    return this.http.put(this.turnOnLedURL + id, {})
+  turnOnLed(led: boolean, id: Number){
+    return this.http.post(this.turnOnLedURL + id, {led: led})
   }
 
 }

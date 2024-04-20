@@ -41,11 +41,12 @@ export class NavbarComponent implements OnInit {
   
   ngOnInit(): void {
     const params = this.route.snapshot.params
-    if(this.router.url == '/info/' + params['id']){
+    if(this.router.url == '/info/' + params['id'] || this.router.url == '/historial/' + params['id']){
       // console.log("INFO")
       this.ruta = false
       this.ps.getPaquete(params['id'][1]).subscribe(
         (response) => {
+          console.log(response)
           this.paquete.id = response.id
           this.paquete.led = response.led
           this.paquete.lugar = response.lugar
@@ -70,9 +71,10 @@ export class NavbarComponent implements OnInit {
   }
 
   encenderLed(id: Number){
-    this.ps.turnOnLed(id).subscribe(
+
+    this.ps.turnOnLed(this.paquete.led, id).subscribe(
         (response) => {
-          
+          console.log(response)
         },
         (error) => {
 

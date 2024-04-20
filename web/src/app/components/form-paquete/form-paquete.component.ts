@@ -2,7 +2,7 @@ import { Component, OnInit, resolveForwardRef } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { PaquetesService } from '../../services/paquetes.service';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CreatePaquete } from '../../interfaces/create-paquete';
 import { Messages } from '../../interfaces/messages';
@@ -10,11 +10,11 @@ import { Messages } from '../../interfaces/messages';
 @Component({
   selector: 'app-form-paquete',
   standalone: true,
-  imports: [ NavbarComponent, ReactiveFormsModule, CommonModule ],
+  imports: [ NavbarComponent, ReactiveFormsModule, CommonModule, RouterLink ],
   templateUrl: './form-paquete.component.html',
   styleUrl: './form-paquete.component.css'
 })
-export default class FormPaqueteComponent implements OnInit {
+export class FormPaqueteComponent implements OnInit {
 
 
   constructor( private router: Router, private route: ActivatedRoute, private ps: PaquetesService, private fb: FormBuilder) { }

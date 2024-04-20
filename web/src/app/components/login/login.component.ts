@@ -8,6 +8,7 @@ import { Login } from '../../interfaces/Login';
 import { UserDataService } from '../../services/user-data.service';
 import { Token } from '../../interfaces/token';
 
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -15,7 +16,7 @@ import { Token } from '../../interfaces/token';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 }) 
-export default class LoginComponent {
+export class LoginComponent {
 
   // Inyeccion de FormBuilder para formulario reactivo y LoginService para petición de Login
   constructor( private ls: LoginService, private ud: UserDataService, private router: Router) {}

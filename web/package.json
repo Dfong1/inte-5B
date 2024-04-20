@@ -23,6 +23,7 @@
     "chart.js": "^4.4.2",
     "chartjs-plugin-datalabels": "^2.2.0",
     "laravel-echo": "^1.16.0",
+    "ngx-pagination": "^6.0.3",
     "pusher-js": "5.1.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

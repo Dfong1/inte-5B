@@ -6,13 +6,13 @@ import {ChartDataset, ChartOptions, Chart, LinearScale,BarController,CategorySca
 import ChartDataLabels from 'chartjs-plugin-datalabels'
 Chart.register(LinearScale,BarController,CategoryScale,BarElement,ChartDataLabels);
 import  Pusher  from 'pusher-js'
-import { echo } from '../../interfaces/Environment';
 import { ValoresPaquete } from '../../interfaces/valores-paquete';
 import { CommonModule } from '@angular/common';
 import { PaquetesService } from '../../services/paquetes.service';
 import { Paquetes } from '../../interfaces/paquetes';
 import { Subscription, interval, switchMap } from 'rxjs';
 import {Estadisitca} from "../../interfaces/estadisitca";
+import Echo from 'laravel-echo';
 (window as any).Pusher = Pusher
 
 export interface ChartData {
@@ -74,12 +74,32 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
   public sensorName: string = ""
   private pollingSubscription: Subscription = new Subscription()
   public errorMessage: string|null = null;
+  public echo: Echo = new Echo({
+    broadcaster:'pusher',
+    key:'123',
+    cluster:'mt1',
+    wsHost:'127.0.0.1',
+    wsPort:6001,
+    forceTLS:false,
+    disableStatus:true,
+  })
+
+  websocket(){
+    this.echo.channel('history').listen('HistoryEvent',(res:ValoresPaquete)=>{
+      this.valores = res
+    })
+
+    this.echo.connect()
+  }
+
+  public params = this.route.snapshot.params
+
 
   ngOnInit(): void {
-    const params = this.route.snapshot.params
+    console.log(this.echo)
     this.websocket()
 
-    this.ps.getPaquete(params['id']).subscribe(
+    this.ps.getPaquete(this.params['id']).subscribe(
       (response) => {
         this.paquete.id = response.id
         this.paquete.led = response.led
@@ -94,7 +114,7 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
     const pollingInterval = 5000
 
     this.pollingSubscription = interval(pollingInterval).pipe(
-      switchMap(() => this.hs.getSensorData(params['id']))
+      switchMap(() => this.hs.getSensorData(this.params['id']))
       ).subscribe(
         (response) => {},
         (error) => {
@@ -104,15 +124,8 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
 
   }
 
-  websocket(){
-    echo.channel('history').listen('HistoryEvent',(res:ValoresPaquete)=>{
-      this.valores = res
-    })
-
-    echo.connect()
-  }
-
-  openModal(sensor: string, paquete_id: string, ) {
+    openModal(sensor: string, paquete_id: string, ) {
+      String(paquete_id)
     if (this.chart && this.labelList.length > 0 && this.promedio.length > 0) {
       this.chart.destroy();
       this.labelList = []
@@ -167,7 +180,7 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    echo.disconnect()
+    this.echo.disconnect()
     this.pollingSubscription.unsubscribe()
   }
 

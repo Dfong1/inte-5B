@@ -23,7 +23,7 @@ import { UserRegiser } from '../../interfaces/UserRegister';
   styleUrl: './register.component.css'
 })
 
-export default class RegisterComponent {
+export class RegisterComponent {
 
   constructor(private fb: FormBuilder, private rs: RegisterService, private router: Router){  }
 
