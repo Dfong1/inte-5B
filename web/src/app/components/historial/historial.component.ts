@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { HistorialService } from '../../services/historial.service';
 import { Historial } from '../../interfaces/historial';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -14,7 +14,7 @@ import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.comp
 @Component({
   selector: 'app-historial',
   standalone: true,
-  imports: [ NavbarComponent, CommonModule, FormsModule, LoadingSpinnerComponent],
+  imports: [ NavbarComponent, CommonModule, FormsModule, LoadingSpinnerComponent, RouterLink ],
   templateUrl: './historial.component.html',
   styleUrl: './historial.component.css'
 })
@@ -47,9 +47,8 @@ export class HistorialComponent implements OnInit {
   }
 
   getKeys(obj: any): string[] {
-    return Object.keys(obj);
+    return Object.keys(obj).filter(key => key !== '_id' && key !== 'paquete_id' && key !== 'fecha');
   }
-
   onPageChange(paginationUrl: string): void{
 
     this.hs.getHistorial(paginationUrl).subscribe(

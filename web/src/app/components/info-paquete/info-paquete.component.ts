@@ -55,6 +55,8 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
     }
   }
 
+  public isData: boolean = false
+
   public estadistica: Estadisitca = {
     data: [{
         _id: "",
@@ -116,14 +118,16 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
       }
     )
     const pollingInterval = 5000
-
+    this.isData = true
     this.pollingSubscription = interval(pollingInterval).pipe(
       switchMap(() => this.hs.getSensorData(this.params['id']))
       ).subscribe(
         (response) => {
         this.loading = false
+        this.isData = false
         },
         (error) => {
+          this.isData = true
           this.errorMessage = error.error.message
           this.loading = false
         }

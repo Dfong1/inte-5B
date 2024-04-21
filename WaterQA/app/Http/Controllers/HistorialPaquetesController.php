@@ -66,7 +66,7 @@ class HistorialPaquetesController extends Controller
 
     public function show($id)
     {
-        $historial = HistorialPaquete::where('paquete_id', $id)->latest('fecha')->paginate(50);
+        $historial = HistorialPaquete::where('paquete_id', $id)->latest('fecha')->paginate(10);
         Log::info($historial);
         if(!$historial){
             return response()->json(['message' => 'No hay datos registrados'],400);

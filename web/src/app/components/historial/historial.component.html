@@ -8,22 +8,30 @@
 <body>
     <app-navbar></app-navbar>
     <div *ngIf="loading">
-        <app-loading-spinner></app-loading-spinner>
-      </div>
+      <app-loading-spinner></app-loading-spinner>
+    </div>
     <div *ngIf="data">
         <div *ngFor="let dato of data.data.data">
-          <div style="display: flex; border: 1px solid black; margin-top: 5px; margin-bottom: 15px;">
-            <table>
+          <div class="contenedor-historial">
+            <table class="table">
               <thead>
                 <tr>
                   <th>Fecha</th>
-                  <th *ngFor="let key of getKeys(dato)">{{ key }}</th>
+                  <th *ngFor="let key of getKeys(dato)">
+                    <ng-container *ngIf="key !== '_id' && key !== 'paquete_id' && key !== 'fecha' ">
+                      {{ key }}
+                    </ng-container>
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>{{ dato.fecha }}</td>
-                  <td *ngFor="let key of getKeys(dato)">{{ dato[key] }}</td>
+                  <td *ngFor="let key of getKeys(dato)">
+                    <ng-container *ngIf="key !== '_id' && key !== 'paquete_id' && key !== 'fecha' ">
+                      {{ dato[key] }}
+                    </ng-container>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -40,8 +48,18 @@
             </button>
         </div>
     </div>
-    <div *ngIf="data?.data?.data?.length == 0">
-        Todavía no tienes datos en historial
+    <div class="container">
+
+      <div *ngIf="data?.data?.data?.length == 0">
+          <h1 style="text-align: center;">Todavía no tienes datos en historial</h1>
+      </div>
     </div>
+    
+    <div style="width: 50%; margin: auto;">
+      <button class="btn mt-3 mb-3" style="width: 100%; background-color: #99d9e2;" routerLink="/home">
+        Volver a pantalla de inicio
+      </button>
+    </div>
+
 </body>
 </html>
