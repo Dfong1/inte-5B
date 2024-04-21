@@ -8,24 +8,38 @@
 <body>
     <div class="container">
     
-        <div class="contenedor">
+        <div *ngIf="loading" class="spinner-overlay">
+            <app-loading-spinner></app-loading-spinner>
+          </div>
+
+        <div class="contenedor" [ngClass]="{ 'disabled': loading }">
             <h1>Iniciar sesión</h1>
-            <form class="form form-floating" (submit)="onSubmit($event)">
+            <form class="form form-floating" (submit)="onSubmit($event)" [formGroup]="form">
                 <div class="form-floating mb-3">
-                    <input type="email" [(ngModel)]="userLogin.email" name="email" class="form-control" id="floatingInput" required placeholder="nombre@dominio.com" >
+                    <input type="email" name="email" class="form-control" id="floatingInput" formControlName="email" required placeholder="nombre@dominio.com" [class.is-invalid]="email.invalid && email.touched || email.invalid && email.dirty" >
                     <label for="floatingInput">Correo</label>
+
+                    <div [hidden]="email.valid || email.pristine">
+                        <span class="text-danger" *ngIf="email.errors?.['required']"> Este campo es obligatorio </span>
+                        <span class="text-danger" *ngIf="email.errors?.['email']"> El formato de correo es incorrecto </span>
+                    </div>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="password" class="form-control" [(ngModel)]="userLogin.password" name="password" id="floatingPassword" required placeholder="********" >
+                    <input type="password" class="form-control" formControlName="password" name="password" id="floatingPassword" required placeholder="********" [class.is-invalid]="password.invalid && password.touched || password.invalid && password.dirty" >
                     <label for="floatingPassword">Contraseña</label>
+
+                    <div [hidden]="password.valid || password.pristine">
+                        <span class="text-danger" *ngIf="password.errors?.['required']">La contraseña es obligatoria</span>
+                        <span class="text-danger" *ngIf="password.errors?.['minlength']">La contraseña debe ser de minimo 8 caracteres</span>
+                    </div>
                 </div>
                 <div *ngIf="message" class="alert alert-danger alert-dismissible fade show" role="alert">
                     {{ message }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-                <button type="submit" class="btn">Inicar sesión</button>
+                <button type="submit" class="btn" [disabled]="form.invalid">Inicar sesión</button>
             </form>
-            <p>¿No tienes una cuenta? <a routerLink="register">Registrate</a></p>
+            <p>¿No tienes una cuenta? <a routerLink="/register">Registrate</a></p>
         </div>
     </div>
 </body>

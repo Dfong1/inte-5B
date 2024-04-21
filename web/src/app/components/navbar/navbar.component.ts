@@ -17,7 +17,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private router: Router, private ud: UserDataService, private ps: PaquetesService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private ud: UserDataService, private ps: PaquetesService, private ls: LoginService) { }
   token = LoginService.getInstance().getToken()
   public userData: User = {
     id: 0,
@@ -42,11 +42,9 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     const params = this.route.snapshot.params
     if(this.router.url == '/info/' + params['id'] || this.router.url == '/historial/' + params['id']){
-      // console.log("INFO")
       this.ruta = false
       this.ps.getPaquete(params['id'][1]).subscribe(
         (response) => {
-          console.log(response)
           this.paquete.id = response.id
           this.paquete.led = response.led
           this.paquete.lugar = response.lugar
@@ -65,7 +63,6 @@ export class NavbarComponent implements OnInit {
       (response) => {
         this.userData = response
 
-        console.log(this.userData)
       }
     )
   }
@@ -74,12 +71,22 @@ export class NavbarComponent implements OnInit {
 
     this.ps.turnOnLed(this.paquete.led, id).subscribe(
         (response) => {
-          console.log(response)
         },
         (error) => {
 
         }
     );
+}
+
+cerrarSesion(){
+  this.ls.logout().subscribe(
+    (response) => {
+
+      this.router.navigate([''])
+    }
+  )
+
+
 }
 
 }

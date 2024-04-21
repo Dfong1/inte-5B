@@ -6,24 +6,42 @@
     <title>Historial</title>
 </head>
 <body>
-    
     <app-navbar></app-navbar>
-
-    <div *ngFor="let dato of data.data" style="display: flex;  border: 1px solid black; margin-top: 5px; margin-bottom: 15px;">
-        <table  >
-            <thead>
-                <tr>
-                    <th>Fecha</th>
-                    <th *ngFor="let key of getKeys(dato)"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let key of getKeys(dato)">
-                    <td>{{ key }}: {{ dato[key] }}</td>
-                </tr>
-            </tbody>
-        </table>
+    <div *ngIf="loading">
+        <app-loading-spinner></app-loading-spinner>
       </div>
-
+    <div *ngIf="data">
+        <div *ngFor="let dato of data.data.data">
+          <div style="display: flex; border: 1px solid black; margin-top: 5px; margin-bottom: 15px;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th *ngFor="let key of getKeys(dato)">{{ key }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ dato.fecha }}</td>
+                  <td *ngFor="let key of getKeys(dato)">{{ dato[key] }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="contenedor-controles" *ngIf="data.data.data.length != 0">
+            <button *ngFor="let link of data.data.links"
+                    (click)="onPageChange(link.url)"
+                    [disabled]="!link.url"
+                    [class.disabled]="!link.url"
+                    [class.active]="link.active" 
+                    class="pagination-button">
+              {{ translatePaginationLabel(link.label) }}
+            </button>
+        </div>
+    </div>
+    <div *ngIf="data?.data?.data?.length == 0">
+        Todavía no tienes datos en historial
+    </div>
 </body>
 </html>

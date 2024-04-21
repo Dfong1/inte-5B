@@ -33,6 +33,12 @@
                     </div>
                 </div>
 
+                <div *ngIf="errorNombre" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <p *ngFor="let error of errorNombre"> {{ error }}</p>
+                    
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
             
                 <button class="btn btn-primary" style="width: 100%;" [disabled]="form.invalid">Guardar</button>
             </form>

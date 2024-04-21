@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, booleanAttribute } from '@angular/core';
 import { User } from '../../interfaces/User';
 import { LoginService } from '../../services/login.service';
 import { FormsModule } from '@angular/forms';
@@ -9,17 +9,19 @@ import { PaquetesService } from '../../services/paquetes.service';
 import { Paquetes } from '../../interfaces/paquetes';
 import { CommonModule } from '@angular/common';
 import { Messages } from '../../interfaces/messages';
+import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ RouterModule, NavbarComponent, FormsModule, CommonModule ],
+  imports: [ RouterModule, NavbarComponent, FormsModule, CommonModule, LoadingSpinnerComponent ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
 
+  public loading: boolean =true
 
   public userData: User = {
     id: 0,
@@ -55,7 +57,6 @@ export class HomeComponent implements OnInit {
 
     this.ps.turnOnLed(paquete.led, paquete.id).subscribe(
         (response) => {
-          console.log(response)
         },
         (error) => {
 
@@ -74,9 +75,8 @@ export class HomeComponent implements OnInit {
     
     this.ps.getPaquetes().subscribe(
       (response) => {
-        console.log(response)
         response.forEach((paquete, index) => {
-          this.paquetes.push(paquete)
+          this.paquetes?.push(paquete)
           if(paquete.led == false){
             this.paquetes[index].led = false
           }
@@ -85,6 +85,10 @@ export class HomeComponent implements OnInit {
           }
           this.check = paquete.led
         })
+        
+        this.loading = false
+      }, (error) => {
+        this.loading = false
       }
     )
   }
@@ -97,7 +101,6 @@ export class HomeComponent implements OnInit {
         this.ps.getPaquetes().subscribe(
           (response) => {
             this.paquetes = []
-            console.log(response)
             response.forEach((paquete, index) => {
               this.paquetes.push(paquete)
               if(paquete.led == false){

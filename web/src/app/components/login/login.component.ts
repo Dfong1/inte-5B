@@ -7,12 +7,13 @@ import { User } from '../../interfaces/User';
 import { Login } from '../../interfaces/Login';
 import { UserDataService } from '../../services/user-data.service';
 import { Token } from '../../interfaces/token';
+import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ ReactiveFormsModule, CommonModule, RouterModule, FormsModule ],
+  imports: [ ReactiveFormsModule, CommonModule, RouterModule, FormsModule, LoadingSpinnerComponent ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 }) 
@@ -21,8 +22,10 @@ export class LoginComponent {
   // Inyeccion de FormBuilder para formulario reactivo y LoginService para petición de Login
   constructor( private ls: LoginService, private ud: UserDataService, private router: Router) {}
 
+  public loading: boolean = false;
+
   public form = new FormGroup({
-    email: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(8)])
   })
 
@@ -32,6 +35,8 @@ export class LoginComponent {
   get password() {
     return this.form.get('password') as FormControl
   }
+
+  
 
     public message: string|null = null;
     public userLogin: Login = {
@@ -55,6 +60,15 @@ export class LoginComponent {
   onSubmit(event: Event){
     event.preventDefault()
 
+    this.userLogin.email = this.email.value
+    this.userLogin.password = this.password.value
+
+    this.form.disable()
+
+    this.loading = true
+    this.message = null
+
+
     this.ls.login(this.userLogin).subscribe(
       (response) => {
         // Asignando datos al usuario
@@ -73,9 +87,9 @@ export class LoginComponent {
         this.router.navigate(['/home'])
       },
       (error) => {
-        // Muestra mensaje de error en caso de que el usuario haya introducido correo o contraseña incorrectos
-        this.message = null
-        this.message = error.msg
+        this.form.enable()
+        this.loading = false
+        this.message = error.error.msg
       }
     )
 

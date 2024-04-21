@@ -1,7 +1,7 @@
 import { Component, OnInit, resolveForwardRef } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { PaquetesService } from '../../services/paquetes.service';
-import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CreatePaquete } from '../../interfaces/create-paquete';
@@ -10,7 +10,7 @@ import { Messages } from '../../interfaces/messages';
 @Component({
   selector: 'app-form-paquete',
   standalone: true,
-  imports: [ NavbarComponent, ReactiveFormsModule, CommonModule, RouterLink ],
+  imports: [ NavbarComponent, ReactiveFormsModule, CommonModule, RouterLink, FormsModule ],
   templateUrl: './form-paquete.component.html',
   styleUrl: './form-paquete.component.css'
 })
@@ -42,6 +42,9 @@ export class FormPaqueteComponent implements OnInit {
     errores: "",
     msg: "",
   }
+
+  public errorNombre: Array<string> | null = null
+  public errorLugar: Array<string> | null = null
 
   ngOnInit(): void {
     const params = this.route.snapshot.params
@@ -77,8 +80,19 @@ export class FormPaqueteComponent implements OnInit {
           }, 2000)
         },
         (error) => {
-          this.message.errores = error.errores
-          this.message.msg = error.msg
+          
+          if(error.error.errores.nombre){
+            error.error.errores.nombre.forEach((error: string) => {
+              this.errorNombre?.push(error)
+            })
+          }
+          if(error.error.errores.lugar){
+            error.error.errores.lugar.forEach((error: string) => {
+              this.errorLugar?.push(error)
+            })
+          }
+
+          this.message.msg = error.error.msg
         }
       )
     }
@@ -90,6 +104,18 @@ export class FormPaqueteComponent implements OnInit {
           setTimeout(() => {
             this.router.navigate(['/home'])
           }, 2000)
+        }, (error) => {
+          if(error.error.errores.nombre){
+            error.error.errores.nombre.forEach((error: string) => {
+              this.errorNombre?.push(error)
+            })
+          }
+          if(error.error.errores.lugar){
+            error.error.errores.lugar.forEach((error: string) => {
+              this.errorLugar?.push(error)
+            })
+          }
+
         }
       )
     }

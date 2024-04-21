@@ -1,5 +1,7 @@
 export interface Historial {
     data: {
-      [key: string]: string;
-    }[];
+      data:{
+        [key: string]: string;
+      }[]
+    };
   }

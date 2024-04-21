@@ -13,6 +13,7 @@ export class LoginService {
 
   // Declaración de variables y URLS para petición
   private loginUrl = `${api}/api/login`
+  private logoutUrl = `${api}/api/logout`
   private token: string|null = null;
   private static instance: LoginService
 
@@ -34,6 +35,10 @@ export class LoginService {
     return this.token
   }
   /////////////////////
+
+  logout(){
+    return this.http.post(this.logoutUrl, {})
+  }
 
   // Petición para API (Login)
   login(user: Login): Observable<Token>{

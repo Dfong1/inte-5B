@@ -13,6 +13,7 @@ import { Paquetes } from '../../interfaces/paquetes';
 import { Subscription, interval, switchMap } from 'rxjs';
 import {Estadisitca} from "../../interfaces/estadisitca";
 import Echo from 'laravel-echo';
+import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 (window as any).Pusher = Pusher
 
 export interface ChartData {
@@ -22,7 +23,7 @@ export interface ChartData {
 @Component({
   selector: 'app-info-paquete',
   standalone: true,
-  imports: [ NavbarComponent, CommonModule, RouterLink ],
+  imports: [ NavbarComponent, CommonModule, RouterLink, LoadingSpinnerComponent ],
   templateUrl: './info-paquete.component.html',
   styleUrl: './info-paquete.component.css'
 })
@@ -32,6 +33,8 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
 
 
   constructor( private route: ActivatedRoute, private hs: HistorialService, private ps: PaquetesService, ) { }
+
+  public loading: boolean = true;
 
   public valores: ValoresPaquete = {
     data: {
@@ -96,7 +99,6 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    console.log(this.echo)
     this.websocket()
 
     this.ps.getPaquete(this.params['id']).subscribe(
@@ -109,6 +111,8 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
         this.paquete.user_id = response.user_id
         this.paquete.esp_id = response.esp_id
         this.paquete.fecha_de_creacion = response.fecha_de_creacion
+
+      }, (error) => {
       }
     )
     const pollingInterval = 5000
@@ -116,9 +120,12 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
     this.pollingSubscription = interval(pollingInterval).pipe(
       switchMap(() => this.hs.getSensorData(this.params['id']))
       ).subscribe(
-        (response) => {},
+        (response) => {
+        this.loading = false
+        },
         (error) => {
           this.errorMessage = error.error.message
+          this.loading = false
         }
       )    
 

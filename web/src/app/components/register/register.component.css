@@ -4,6 +4,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .contenedor {
@@ -29,5 +30,19 @@
 }
 
 .alert {
-    width: 100%;
+    width: 50%;
 }
+
+.spinner-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; 
+}
+
+.contenedor.disabled {
+    pointer-events: none;
+    opacity: 0.5; 
+}
+

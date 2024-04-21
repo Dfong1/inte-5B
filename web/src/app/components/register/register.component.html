@@ -7,22 +7,28 @@
 </head>
 <body>
     <div class="container">
-        <div class="contenedor">
-            <div class="alert alert-success" *ngIf="msg">
-                {{ msg }}
-                <p>Redireccionando al login</p>
-            </div>
+
+        <div *ngIf="loading" class="spinner-overlay">
+            <app-loading-spinner></app-loading-spinner>
+          </div>
+
+          <div class="alert alert-success" *ngIf="msg">
+            <p>{{ msg }}</p>
+            <p>Activa tu cuenta en tu correo</p>
+            <p>Redireccionando al login</p>
+          </div>
+        <div class="contenedor" [ngClass]="{ 'disabled': loading }">
             <h1>Registrate</h1>
             <form action="" class="form" [formGroup]="form" (submit)="submit()">
                 <div class="form-floating mb-3">
-                    <input placeholder="Ingrese su nombre" formControlName="usuario"  [class.is-invalid]="usuario.invalid && usuario.touched" required class="form-control">
+                    <input placeholder="Ingrese su nombre" formControlName="usuario"  [class.is-invalid]="usuario.invalid && usuario.touched || usuario.invalid && usuario.dirty" required class="form-control">
                         <label for="floatingInput">Nombre de usuario</label>
                         <div [hidden]="usuario.valid || usuario.pristine">
                             <span class="text-danger" *ngIf="usuario.errors?.['required'] && usuario.touched">El usuario es obligatorio</span>
                         </div>
                 </div>
                 <div class="form-floating mb-3">
-                    <input placeholder="correo@dominio.com" formControlName="email" required [class.is-invalid]="email.invalid && email.touched" class="form-control">
+                    <input placeholder="correo@dominio.com" formControlName="email" required [class.is-invalid]="email.invalid && email.touched || email.invalid && email.dirty" class="form-control" >
                         <label for="floatingInput">Correo</label>
                         <div [hidden]="email.valid || email.pristine">
                             <span class="text-danger" *ngIf="email.errors?.['required']">{{getErrorMessage()}}</span>
@@ -30,7 +36,7 @@
                         </div>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="floatingPassword" formControlName="password" [class.is-invalid]="password.invalid && password.touched" placeholder="Password" required >
+                    <input type="password" class="form-control" id="floatingPassword" formControlName="password" [class.is-invalid]="password.invalid && password.touched || password.invalid && password.dirty" placeholder="Password" required  >
                     <label for="floatingPassword">Contraseña</label>
                     <div [hidden]="password.valid || password.pristine">
                         <span class="text-danger" *ngIf="password.errors?.['required']">La contraseña es obligatoria</span>
@@ -38,7 +44,7 @@
                     </div>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="floatingPasswordConfirmation" formControlName="confirm_password"  [class.is-invalid]="confirm_password.invalid && confirm_password.touched" placeholder="Password" required  >
+                    <input type="password" class="form-control" id="floatingPasswordConfirmation" formControlName="confirm_password" [class.is-invalid]="confirm_password.invalid && confirm_password.touched || confirm_password.invalid && confirm_password.dirty" placeholder="Password" required  >
                     <label for="floatingPasswordConfirmation">Confirma contraseña</label>
                     <div [hidden]="confirm_password.valid || confirm_password.pristine || confirm_password.value === password.value">
                         <span class="text-danger" *ngIf="confirm_password.errors?.['required']">La contraseña es obligatoria</span>

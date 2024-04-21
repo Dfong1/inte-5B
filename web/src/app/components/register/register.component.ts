@@ -1,24 +1,16 @@
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormControl,  ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { RegisterService } from '../../services/register.service';
 import { UserRegiser } from '../../interfaces/UserRegister';
+import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 
-  NgModule({
-    declarations: [
-      HttpClient
-    ],
-    imports: [
-      HttpClient
-    ]
-  })
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ ReactiveFormsModule, CommonModule, RouterModule ],
+  imports: [ ReactiveFormsModule, CommonModule, RouterModule, LoadingSpinnerComponent ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -28,10 +20,10 @@ export class RegisterComponent {
   constructor(private fb: FormBuilder, private rs: RegisterService, private router: Router){  }
 
   form = this.fb.group({
-    'usuario': ['', Validators.required],
-    'email': ['', [Validators.required, Validators.email]],
-    'password': ['', [Validators.required, Validators.minLength(8)]],
-    'confirm_password': ['', [Validators.required, Validators.minLength(8)]]
+    'usuario': [{ value: '', disabled: false }, Validators.required],
+    'email': [{ value: '', disabled: false }, [Validators.required, Validators.email]],
+    'password': [{ value: '', disabled: false }, [Validators.required, Validators.minLength(8)]],
+    'confirm_password': [{ value: '', disabled: false }, [Validators.required, Validators.minLength(8)]]
   })
 
   public msg: string|null = null;
@@ -53,6 +45,8 @@ export class RegisterComponent {
   get confirm_password() {
     return this.form.get('confirm_password') as FormControl
   }
+
+  public loading: boolean = false;
 
   public userRegister: UserRegiser = {
     name: "",
@@ -85,6 +79,12 @@ export class RegisterComponent {
   
 
   submit(){
+    this.loading = true
+    this.form.disable()
+    this.nombreError = null
+    this.passwordError = null
+    this.emailError = null
+    
     this.userRegister.name = this.usuario.value
     this.userRegister.password = this.password.value
     this.userRegister.email = this.email.value
@@ -97,31 +97,30 @@ export class RegisterComponent {
         }, 2000)
       },
       (error) => {
-        if(error.error.email){
-          this.emailError = null
+        this.loading = false
+        this.form.enable()
+
+
+        if(error.error.error.email){
           this.emailError = []
-          error.error.email.forEach((error: string) => {
+          error.error.error.email.forEach((error: string) => {
             this.emailError?.push(error)
           }) 
         }
-        if(error.error.password){
-          this.passwordError = null
+        if(error.error.error.password){
           this.passwordError = []
-          error.error.password.forEach((error: string) => {
+          error.error.error.password.forEach((error: string) => {
             this.passwordError?.push(error)
           }) 
         }
-        if(error.error.name){
-          this.nombreError = null
+        if(error.error.error.name){
           this.nombreError = []
-          error.error.name.forEach((error: string) => {
+          error.error.error.name.forEach((error: string) => {
             this.nombreError?.push(error)
           }) 
         }
       }
     )
   }
-
-
 
 }

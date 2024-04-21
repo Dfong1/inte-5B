@@ -36,7 +36,12 @@
             </label>
           </div>
       </div>
-      <h1 *ngIf="paquetes.length == 0">No hay paquetes, favor de añadir uno</h1>
+      <div *ngIf="loading">
+        <app-loading-spinner></app-loading-spinner>
+      </div>
+      <div *ngIf="!loading">
+        <h1 *ngIf="paquetes.length == 0">No hay paquetes, favor de añadir uno</h1>
+      </div>
     </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

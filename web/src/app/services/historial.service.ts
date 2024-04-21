@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { ValoresPaquete } from '../interfaces/valores-paquete';
 import { Estadisitca } from '../interfaces/estadisitca';
 import { Historial } from '../interfaces/historial';
+import { PaginatedData } from '../interfaces/paginated-data';
 
 @Injectable({
   providedIn: 'root'
@@ -45,8 +46,8 @@ export class HistorialService {
     })
   }
 
-  getHistorial(id: Number): Observable<Historial> {
-    return this.http.get<Historial>(this.getHistorialURL + id)
+  getHistorial(pageUrl: string): Observable<PaginatedData> {
+    return this.http.get<PaginatedData>(pageUrl)
   }
 
 
