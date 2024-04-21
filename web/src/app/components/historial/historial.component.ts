@@ -63,9 +63,9 @@ export class HistorialComponent implements OnInit {
   translatePaginationLabel(label: string): string {
     switch (label) {
       case '&laquo; Previous':
-        return 'Anterior';
+        return '';
       case 'Next &raquo;':
-        return 'Siguiente';
+        return '';
       default:
         return label;
     }

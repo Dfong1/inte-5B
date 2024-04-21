@@ -37,16 +37,33 @@
             </table>
           </div>
         </div>
-        <div class="contenedor-controles" *ngIf="data.data.data.length != 0">
-            <button *ngFor="let link of data.data.links"
-                    (click)="onPageChange(link.url)"
-                    [disabled]="!link.url"
-                    [class.disabled]="!link.url"
-                    [class.active]="link.active" 
-                    class="pagination-button">
-              {{ translatePaginationLabel(link.label) }}
+        <div class="contenedor-controles-responsivo" *ngIf="data.data.data.length != 0">
+          <button *ngIf="data.data.prev_page_url" (click)="onPageChange(data.data.prev_page_url)" class="pagination-button">
+            Anterior
+          </button>
+          
+          <ng-container *ngFor="let link of data.data.links; let i = index">
+            <button *ngIf="link.label !== '...'" (click)="onPageChange(link.url)" 
+                    [class.disabled]="!link.url" [class.active]="link.active" 
+                    class="pagination-button" [style.display]="link.active || i === 0 || i === data.data.links.length - 1 ? 'inline-block' : 'none'">
+                    {{ translatePaginationLabel(link.label) }}
             </button>
+          </ng-container>
+        
+          <button *ngIf="data.data.next_page_url" (click)="onPageChange(data.data.next_page_url)" class="pagination-button">
+            Siguiente
+          </button>
         </div>
+        <div class="contenedor-controles" *ngIf="data.data.data.length != 0">
+          <button *ngFor="let link of data.data.links"
+                  (click)="onPageChange(link.url)"
+                  [disabled]="!link.url"
+                  [class.disabled]="!link.url"
+                  [class.active]="link.active" 
+                  class="pagination-button">
+            {{ translatePaginationLabel(link.label) }}
+          </button>
+      </div>
     </div>
     <div class="container">
 

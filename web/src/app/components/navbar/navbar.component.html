@@ -1,5 +1,50 @@
-<nav class="navbar">
+    <nav class="navbar ">
+        <div class="container-fluid">
+            <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                <h1 class="navbar-brand" style="margin-bottom: auto;">Water QA</h1>
+                <img src="assets/water-drop.png" style="width: 40px; height: 40px;" alt="">
+            </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+            <h2 class="offcanvas-title" id="offcanvasNavbarLabel">Water QA</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <hr>
+            <div class="offcanvas-body">
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item" routerLink="/formulario-paquetes" *ngIf="ruta == true">
+                    <button class="btn" style="display: flex; align-items: center; justify-content: center;" >
+                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-bottom: auto;" viewBox="0 0 512 512" width="20px" height="20px" ><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
+                        <p style="margin-left: 10px;">Agregar paquete</p>
+                    </button>
+                </li>
+                <li class="nav-item mb-3" *ngIf="ruta == false">
+                    <label class="switch">
+                        <input type="checkbox" [(ngModel)]="paquete.led" (change)="encenderLed(paquete.id)" >
+                        <span class="slider"></span>
+                    </label>
+                </li>
+                <li class="nav-item">
+                    <button style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-right: 10px;"type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/user.png" style="width: 30px; height: 30px;" alt="">
+                        <p style="text-align: center; margin: 0;">{{ userData.name }}</p>
+                    </button>
+                    <ul class="dropdown-menu" style="width: 50%;">
+                        <li class="dropdown-item" (click)="cerrarSesion()">Cerrar sesión</li>
+                    </ul>
+                </li>
+            </ul>
+            </div>
+        </div>
+        </div>
+    </nav>
+
+<nav class="nav">
     <ul class="items-nav">
+
         <li class="item" routerLink="/formulario-paquetes" *ngIf="ruta == true">
             <button class="btn" style="display: flex; align-items: center; justify-content: center;" >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="25px" height="25px" ><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
