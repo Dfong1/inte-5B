@@ -40,6 +40,7 @@
   .contenedor-controles-responsivo{
     display: block;
     margin: auto;
+    width: 50%;
   }
 
   .contenedor-controles-responsivo.pagination-button:not(.active) {
