@@ -5,7 +5,6 @@ import { Historial } from '../../interfaces/historial';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { PaginatedData } from '../../interfaces/paginated-data';
 import { api } from '../../interfaces/Environment';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
