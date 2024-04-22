@@ -81,7 +81,7 @@ class HistorialPaquetesController extends Controller
         // $promedio[0]->promedio = round($promedio[0]->promedio, 3);
         Log::info($promedio);
 
-        return response()->json(['data'=>$promedio[0]],200);
+        return response()->json(['data'=>$promedio],200);
     }
 
 

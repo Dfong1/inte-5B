@@ -50,7 +50,7 @@ class HistorialPaquete extends Model
                 ]
             ],
             [
-                '$limit'=>20
+                '$limit'=>10
             ]
         ];
         $result = self::raw(function($collection) use ($aggregation) {
