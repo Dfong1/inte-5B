@@ -58,10 +58,10 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
   public isData: boolean = false
 
   public estadistica: Estadisitca = {
-    data: {
+    data: [{
         _id: "",
         promedio: 0
-      }
+      }]
     }
 
   public paquete: Paquetes = {
@@ -150,9 +150,10 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
         console.log(response)
 
         this.estadistica.data = response.data;
-
-        this.labelList.push(response.data._id)
-        this.promedio.push(response.data.promedio)
+        for (let item of this.estadistica.data) {
+          this.labelList.push(item._id);
+          this.promedio.push(item.promedio);
+        }
 
         const data: ChartDataset = {
           label: 'Volumen de tráfico',
