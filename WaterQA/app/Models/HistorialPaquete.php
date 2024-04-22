@@ -38,7 +38,10 @@ class HistorialPaquete extends Model
                             'date' => '$fecha_parsed'
                         ]
                     ],
-                    'promedio' => ['$avg' => $sensorField]
+                    'promedio' => ['$avg' => [
+                        '$toDouble' => $sensorField
+                        ]
+                    ]
                 ]
             ],
             [
