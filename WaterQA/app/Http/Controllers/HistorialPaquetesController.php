@@ -78,9 +78,10 @@ class HistorialPaquetesController extends Controller
         $sensor = $request->sensor;
         $paquete_id = $request->paquete_id;
         $promedio = HistorialPaquete::promedioPorDiaSensor($sensor,$paquete_id);
-        $promedio[0]->promedio = round($promedio[0]->promedio, 3);
+        // $promedio[0]->promedio = round($promedio[0]->promedio, 3);
         Log::info($promedio);
-        return response()->json(['data'=>$promedio],200);
+
+        return response()->json(['data'=>$promedio[0]],200);
     }
 
 

@@ -39,6 +39,7 @@
 
   .contenedor-controles-responsivo{
     display: block;
+    margin: auto;
   }
 
   .contenedor-controles-responsivo.pagination-button:not(.active) {

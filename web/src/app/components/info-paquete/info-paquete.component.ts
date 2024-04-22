@@ -58,10 +58,10 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
   public isData: boolean = false
 
   public estadistica: Estadisitca = {
-    data: [{
+    data: {
         _id: "",
         promedio: 0
-      }]
+      }
     }
 
   public paquete: Paquetes = {
@@ -105,6 +105,7 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
 
     this.ps.getPaquete(this.params['id']).subscribe(
       (response) => {
+
         this.paquete.id = response.id
         this.paquete.led = response.led
         this.paquete.lugar = response.lugar
@@ -142,14 +143,17 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
       this.labelList = []
       this.promedio = []
     }
-    this.sensorName = sensor
+
     this.hs.getAvarage(sensor, paquete_id).subscribe(
       (response) => {
+
+        console.log(response)
+
         this.estadistica.data = response.data;
-        for (let item of this.estadistica.data) {
-          this.labelList.push(item._id);
-          this.promedio.push(item.promedio);
-        }
+
+        this.labelList.push(response.data._id)
+        this.promedio.push(response.data.promedio)
+
         const data: ChartDataset = {
           label: 'Volumen de tráfico',
           data: this.promedio,
@@ -188,6 +192,31 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
         });
       }
     )
+
+    const iniciales = sensor.length == 5 ? sensor[0] + sensor[1] +  sensor[2] : sensor[0] + sensor[1] 
+    const numeros = sensor.length == 5 ? sensor[3] +  sensor[4] : sensor[2] + sensor[3] 
+
+      if(iniciales == "PSN"){
+        sensor = "presion" + " " + numeros 
+      }
+      else if(iniciales == "TEM"){
+        sensor = "temperatura" + " " + numeros
+      }
+      else if(iniciales == "CON"){
+        sensor = "conductividad" + " " + numeros
+      }
+      else if(iniciales == "TUR"){
+        sensor = "turbidez" + " " + numeros
+      }
+      else if(iniciales == "NV"){
+        sensor = "nivel de agua" + " " + numeros
+      }
+      else if(iniciales == "PH"){
+        sensor = "presion" + " " + numeros
+      }
+
+    this.sensorName = sensor
+
   }
 
   ngOnDestroy(): void {
