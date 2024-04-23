@@ -27,7 +27,7 @@ class HistorialPaquetesController extends Controller
         $data=(object)['valores'=>$valores,'propiedades'=>$propiedades];
         $msg=(object)['fecha'=>$fecha,'data'=>$data];
         event(new HistoryEvent($msg));
-        return null;
+        return $msg;
     }
 
     public function index_app($esp_id)

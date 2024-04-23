@@ -83,7 +83,7 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
     broadcaster:'pusher',
     key:'123',
     cluster:'mt1',
-    wsHost:'127.0.0.1',
+    wsHost:'192.168.80.135',
     wsPort:6001,
     forceTLS:false,
     disableStatus:true,
@@ -132,7 +132,7 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
           this.errorMessage = error.error.message
           this.loading = false
         }
-      )    
+      )
 
   }
 
@@ -194,11 +194,11 @@ export default class InfoPaqueteComponent implements OnInit, OnDestroy {
       }
     )
 
-    const iniciales = sensor.length == 5 ? sensor[0] + sensor[1] +  sensor[2] : sensor[0] + sensor[1] 
-    const numeros = sensor.length == 5 ? sensor[3] +  sensor[4] : sensor[2] + sensor[3] 
+    const iniciales = sensor.length == 5 ? sensor[0] + sensor[1] +  sensor[2] : sensor[0] + sensor[1]
+    const numeros = sensor.length == 5 ? sensor[3] +  sensor[4] : sensor[2] + sensor[3]
 
       if(iniciales == "PSN"){
-        sensor = "presion" + " " + numeros 
+        sensor = "presion" + " " + numeros
       }
       else if(iniciales == "TEM"){
         sensor = "temperatura" + " " + numeros
